@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/header"></include>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_style"
+            android:text="@string/person_info_fragment_number"/>
+        <TextView
+            android:id="@+id/tv_personal_number"
+            style="@style/tv_style"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_style"
+            android:text="@string/person_info_fragment_major"/>
+        <TextView
+            android:id="@+id/tv_personal_majar"
+            style="@style/tv_style"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_style"
+            android:text="@string/person_info_fragment_school"/>
+        <TextView
+            android:id="@+id/tv_personal_schools"
+            style="@style/tv_style"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_style"
+            android:text="@string/person_info_fragment_grade"/>
+        <TextView
+            android:id="@+id/tv_personal_grade"
+            style="@style/tv_style"/>
+    </LinearLayout>
+
+<!--
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:textAllCaps="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+    -->
+</LinearLayout>

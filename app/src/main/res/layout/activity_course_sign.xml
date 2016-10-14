@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ActivityCourseSign">
+
+
+    <LinearLayout
+        style="@style/linear_sign_style">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_sign_style"
+            android:text="@string/course_sign_activity_name"/>
+        <TextView
+            android:id="@+id/tv_course_sign_name"
+            style="@style/tv_sign_style"
+            android:text="计算机网络工程"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/linear_sign_style">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_sign_style"
+            android:text="@string/course_sign_activity_class"/>
+        <TextView
+            android:id="@+id/tv_course_sign_room"
+            style="@style/tv_sign_style"
+            android:text="工程楼B504"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/linear_sign_style">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_sign_style"
+            android:text="@string/course_sign_activity_teacher"/>
+        <TextView
+            android:id="@+id/tv_course_sign_teacher"
+            style="@style/tv_sign_style"
+            android:text="杨哥"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        style="@style/linear_sign_style">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_sign_style"
+            android:text="@string/course_sign_activity_section"/>
+        <TextView
+            android:id="@+id/tv_course_sign_section"
+            style="@style/tv_sign_style"
+            android:text="周一 1-4"/>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/linear_sign_style">
+        <ImageView
+            android:layout_width="@dimen/personal_info_activity_image_width"
+            android:layout_height="@dimen/personal_info_activity_image_height"
+            android:src="@drawable/me_normal"/>
+        <TextView
+            style="@style/tv_sign_style"
+            android:text="@string/course_sign_activity_weeks"/>
+        <TextView
+            android:id="@+id/tv_course_sign_weeks"
+            style="@style/tv_sign_style"
+            android:text="1-17周"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/course_sign_activity_btn_sign"
+            android:id="@+id/btn_sign"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/course_sign_activity_btn_cannel"
+            android:id="@+id/btn_back"
+            android:layout_below="@+id/btn_sign"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+</LinearLayout>

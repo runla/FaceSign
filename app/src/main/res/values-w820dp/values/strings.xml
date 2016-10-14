@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">FaceSignSystem</string>
+
+    <!--  login string  -->
+    <string name="login_label_username">学号</string>
+    <string name="login_label_passward">密码</string>
+    <string name="login_button_sure">登录</string>
+    <string name="login_button_cancel">取消</string>
+
+    <!-- loading string -->
+    <string name="loading_label_isLogining">正在登录...</string>
+    <string name="loading_btn_cannel">取消</string>
+
+
+    <!-- main activity -->
+    <string name="find_text">发现</string>
+    <string name="me_text">我</string>
+    <string name="wechat_text">微信</string>
+    <string name="title_name">微信</string>
+
+
+
+    <!-- Personal Info activity -->
+    <string name="person_info_fragment_name">姓名</string>
+    <string name="person_info_fragment_number">学号：</string>
+    <string name="person_info_fragment_major">专业：</string>
+    <string name="person_info_fragment_school">学院：</string>
+    <string name="person_info_fragment_grade">年级：</string>
+
+    <!-- course sign activity -->
+    <string name="course_sign_activity_name">名称</string>
+    <string name="course_sign_activity_class">教室</string>
+    <string name="course_sign_activity_teacher">教师</string>
+    <string name="course_sign_activity_section">节数</string>
+    <string name="course_sign_activity_weeks">周数</string>
+    <string name="course_sign_activity_btn_sign">签到</string>
+    <string name="course_sign_activity_btn_cannel">取消</string>
+
+
+</resources>

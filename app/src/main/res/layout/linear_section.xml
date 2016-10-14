@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_section1"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section2"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="2"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section3"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="3"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section4"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="4"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section5"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="5"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section6"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="6"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section7"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="7"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section8"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="8"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section9"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="9"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section10"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="10"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section11"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="11"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section12"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="12"
+        android:textSize="@dimen/linear_section_textsize"/>
+
+    <TextView
+        android:id="@+id/tv_section13"
+        android:layout_weight="1"
+        android:layout_width="@dimen/linear_section_textview_weight"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="13"
+        android:textSize="@dimen/linear_section_textsize"/>
+</LinearLayout>
