@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.administrator.facesign.camera.ShowActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_show"
+            android:src="@drawable/photo_press"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom">
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:scaleType="fitXY"
+                android:background="@null"
+                android:id="@+id/imageButton"
+                android:src="@drawable/yes"
+                android:layout_gravity="right|bottom"
+                android:layout_marginLeft="43dp"
+                android:layout_marginStart="43dp"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/imageButton2"
+                android:layout_toEndOf="@+id/imageButton2"
+                android:onClick="onClick_upload"
+                android:nestedScrollingEnabled="true" />
+
+            <ImageButton
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:scaleType="fitXY"
+                android:background="@null"
+                android:id="@+id/imageButton2"
+                android:src="@drawable/no"
+                android:layout_gravity="left|bottom"
+                android:layout_marginLeft="96dp"
+                android:layout_marginStart="96dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:onClick="onClick_Cannel" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_load"
+            android:layout_width="fill_parent"
+            android:layout_height="102dp"
+            android:layout_weight="3"
+            android:layout_gravity="center">
+
+            <ProgressBar
+                android:id="@+id/bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/bar"
+                android:text="@string/loading_label_isLogining"/>
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

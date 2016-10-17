@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.administrator.facesign.camera.ShowActivity;
 import com.example.administrator.facesign.entity.Course;
 
 
@@ -64,6 +65,7 @@ public class ActivityCourseSign extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.btn_sign:
+                startActivity(new Intent(ActivityCourseSign.this, ShowActivity.class));
                 break;
         }
     }

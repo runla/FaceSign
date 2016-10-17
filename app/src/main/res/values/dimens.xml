@@ -8,7 +8,6 @@
     <dimen name="personal_info_activity_textsize">15dp</dimen>
 
 
-
     <!-- linear_week params -->
     <dimen name="linear_week_height">40dp</dimen>
     <dimen name="linear_week_textsize">16dp</dimen>

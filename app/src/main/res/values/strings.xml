@@ -20,7 +20,6 @@
     <string name="title_name">微信</string>
 
 
-
     <!-- Personal Info activity -->
     <string name="person_info_fragment_name">姓名</string>
     <string name="person_info_fragment_number">学号：</string>
