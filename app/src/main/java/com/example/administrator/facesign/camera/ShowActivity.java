@@ -2,11 +2,16 @@ package com.example.administrator.facesign.camera;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.administrator.facesign.R;
 
@@ -14,13 +19,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import android.graphics.*;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 public class ShowActivity extends AppCompatActivity {
 
@@ -62,8 +60,9 @@ public class ShowActivity extends AppCompatActivity {
 
 
     public void onClick_Cannel(View view){
-        //finish();
-        startCamera();
+        finish();
+        //ActivityCollector.removeActivity(CamreaActivity.class);
+        //startCamera();
     }
 
     //开始识别
@@ -72,6 +71,7 @@ public class ShowActivity extends AppCompatActivity {
         layout_load.setVisibility(View.VISIBLE);
         if (bitmap!=null){
             saveBitmap(bitmap);
+            Toast.makeText(ShowActivity.this, "图片保存成功", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(ShowActivity.this, "图片出错", Toast.LENGTH_SHORT).show();

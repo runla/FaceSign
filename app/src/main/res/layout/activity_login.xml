@@ -88,69 +88,18 @@
         android:textColor="#ffffff"
         android:onClick="onClickLoginBtn" />
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3">
 
-    <!--
-        <RelativeLayout
-            android:id="@+id/login_div"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/bar_loading"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="15dip"
-            android:layout_margin="15dip"
-            android:background="@drawable/background_login_div">
+            android:layout_centerInParent="true" />
 
-            <TextView
-                android:id="@+id/login_user_input"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="5dp"
-                android:text="@string/login_label_username"
-                />
 
-            <EditText
-                android:id="@+id/username_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/login_user_input"
-                android:singleLine="true"
-                android:inputType="text"
+    </RelativeLayout>
 
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/login_password_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="@string/login_label_passward"
-                android:layout_below="@+id/username_edit"
-                />
-            <EditText
-                android:id="@+id/login_passward_edit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/login_password_input"
-                android:inputType="textPassword"
-                android:singleLine="true"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textStyle="normal" />
-
-            <Button
-                android:id="@+id/signin_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login_button_sure"
-                android:layout_below="@+id/login_passward_edit"
-                android:layout_alignRight="@+id/login_passward_edit" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/login_button_cancel"
-                android:id="@+id/cannel_button"
-                android:layout_below="@+id/login_passward_edit"
-                android:layout_toLeftOf="@+id/signin_button" />
-
-        </RelativeLayout>
-        -->
 </LinearLayout>
