@@ -2,16 +2,17 @@ package com.example.administrator.facesign;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.administrator.facesign.activity.BaseActivity;
 import com.example.administrator.facesign.camera.ShowActivity;
+import com.example.administrator.facesign.collector.ActivityCollector;
 import com.example.administrator.facesign.entity.Course;
 
 
-public class ActivityCourseSign extends AppCompatActivity implements View.OnClickListener {
+public class ActivityCourseSign extends BaseActivity implements View.OnClickListener {
 
     private Button btn_sign;
     private Button btn_back;
@@ -28,7 +29,7 @@ public class ActivityCourseSign extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_sign);
-
+        ActivityCollector.addActivity(this);
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         course = (Course) bundle.getSerializable("course");
@@ -68,5 +69,11 @@ public class ActivityCourseSign extends AppCompatActivity implements View.OnClic
                 startActivity(new Intent(ActivityCourseSign.this, ShowActivity.class));
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

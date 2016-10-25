@@ -3,13 +3,15 @@ package com.example.administrator.facesign;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import com.example.administrator.facesign.activity.BaseActivity;
+import com.example.administrator.facesign.collector.ActivityCollector;
+
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     //Fragment
     private Fragment fragment_first;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        ActivityCollector.addActivity(this);
         //初始化各个控件
         InitView();
 
@@ -182,5 +184,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_first.setTextColor(getResources().getColor(R.color.colorTextViewNormal));
         tv_second.setTextColor(getResources().getColor(R.color.colorTextViewNormal));
         tv_third.setTextColor(getResources().getColor(R.color.colorTextViewNormal));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

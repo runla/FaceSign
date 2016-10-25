@@ -2,18 +2,20 @@ package com.example.administrator.facesign;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-public class LoadingActivity extends AppCompatActivity {
+import com.example.administrator.facesign.activity.BaseActivity;
+import com.example.administrator.facesign.collector.ActivityCollector;
+
+public class LoadingActivity extends BaseActivity {
 
     private TextView text_back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
-
+        ActivityCollector.addActivity(this);
         Intent intent = new Intent(LoadingActivity.this,MainActivity.class);
         startActivity(intent);
         //Intent intent
@@ -24,5 +26,11 @@ public class LoadingActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

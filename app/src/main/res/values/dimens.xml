@@ -20,4 +20,5 @@
     <!-- linear_section params -->
     <dimen name="linear_section_textsize">10dp</dimen>
     <dimen name="linear_section_textview_weight">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

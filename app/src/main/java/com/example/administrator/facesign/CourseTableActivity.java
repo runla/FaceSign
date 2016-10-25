@@ -1,7 +1,6 @@
 package com.example.administrator.facesign;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CourseTableActivity extends AppCompatActivity implements View.OnClickListener {
+import com.example.administrator.facesign.activity.BaseActivity;
+import com.example.administrator.facesign.collector.ActivityCollector;
+
+public class CourseTableActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String TAG = "MainActivityTest";
     private TextView textView_day;
@@ -31,7 +33,7 @@ public class CourseTableActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_table);
-
+        ActivityCollector.addActivity(this);
         InitView();
 
         Log.d(TAG,"OnCreate");
@@ -106,5 +108,11 @@ public class CourseTableActivity extends AppCompatActivity implements View.OnCli
                 Toast.makeText(CourseTableActivity.this, "button3", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }

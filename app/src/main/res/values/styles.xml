@@ -9,7 +9,6 @@
     </style>
 
 
-
     <!-- activity personal info textView -->
     <style name="tv_style">
         <item name="android:layout_width">wrap_content</item>
@@ -36,5 +35,9 @@
         <item name="android:paddingTop">15dp</item>
         <item name="android:paddingBottom">15dp</item>
     </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

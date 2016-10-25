@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -13,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.administrator.facesign.activity.BaseActivity;
+import com.example.administrator.facesign.collector.ActivityCollector;
 import com.example.administrator.facesign.connectUtil.HttpLogin;
 import com.example.administrator.facesign.entity.CourseInfo;
 import com.example.administrator.facesign.tool.SharePreferencesHelper;
@@ -20,7 +21,7 @@ import com.example.administrator.facesign.tool.SharePreferencesHelper;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     //账号
     private AutoCompleteTextView userNameEdit;
@@ -46,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_login);
+        ActivityCollector.addActivity(this);
         InitUI();
         InitUserNameEdit();
         isLogined();
@@ -147,5 +149,11 @@ public class LoginActivity extends AppCompatActivity {
             //Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             //startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityCollector.removeActivity(this);
     }
 }
