@@ -64,7 +64,6 @@ public class ActivityCourseSign extends BaseActivity implements View.OnClickList
             case R.id.btn_back:
                 finish();
                 break;
-
             case R.id.btn_sign:
                 startActivity(new Intent(ActivityCourseSign.this, ShowActivity.class));
                 break;

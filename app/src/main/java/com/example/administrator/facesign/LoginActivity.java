@@ -3,8 +3,6 @@ package com.example.administrator.facesign;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,14 +16,16 @@ import android.widget.Toast;
 
 import com.example.administrator.facesign.activity.BaseActivity;
 import com.example.administrator.facesign.collector.ActivityCollector;
+import com.example.administrator.facesign.db.CourseDB;
+import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
 import com.example.administrator.facesign.tool.SharePreferencesHelper;
-import com.example.administrator.facesign.tool.XmlUtil;
+import com.example.administrator.facesign.util.MySharedPreference;
+import com.example.administrator.facesign.util.Utility;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -48,8 +48,6 @@ public class LoginActivity extends BaseActivity {
 
     private Boolean isLogin = false;
 
-    private MyHandler myhandler = new MyHandler(this);
-
     private CourseInfo courseInfo = null;
 
     private TextView tv_loading;
@@ -57,15 +55,12 @@ public class LoginActivity extends BaseActivity {
     private ProgressBar bar_loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_login);
         ActivityCollector.addActivity(this);
         InitUI();
         InitUserNameEdit();
-        isLogined();
-
     }
     //初始化控件
     private void InitUI(){
@@ -89,23 +84,7 @@ public class LoginActivity extends BaseActivity {
             bar_loading.setVisibility(View.VISIBLE);
 
             MyTask task = new MyTask();
-            task.execute("http://192.168.1.104:8080/webtest/loginaction",userNameEdit.getText().toString(),passwordEdit.getText().toString());
-
-
-            //开启访问数据库线程，判断是否登录成功，如果成功则返回学生数据
-            /*new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    CourseInfo courseInfo  =  HttpLogin.LoginByPost(userNameEdit.getText().toString(),passwordEdit.getText().toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("courseInfoObject",courseInfo);
-                    Message msg = new Message();
-                    msg.setData(bundle);
-                    myhandler.sendMessage(msg);
-
-                }
-            }).start();*/
-
+            task.execute("http://192.168.253.1:8080/webtest/loginaction",userNameEdit.getText().toString(),passwordEdit.getText().toString());
         }
         else
         {
@@ -122,67 +101,33 @@ public class LoginActivity extends BaseActivity {
         passwordEdit.setEnabled(true);
     }
 
-    //配合子线程更新UI线程
-    private void updateUIThread(Message msg){
-        Bundle bundle = new Bundle();
-        bundle = msg.getData();
-//        String result = bundle.getString("result");
-        courseInfo = (CourseInfo) bundle.getSerializable("courseInfoObject");
-        if (courseInfo != null) {
-            CourseInfo data = (CourseInfo)getApplication();
-            data.setCourseList(courseInfo.getCourseList());
-            data.setStudent(courseInfo.getStudent());
-            /*//先跳转到加载界面
-            Intent intent = new Intent(LoginActivity.this,LoadingActivity.class);
-            startActivity(intent);*/
-            isLogin = true;
-            recordUserName.putValue("isLogin",isLogin);
-            Toast.makeText(LoginActivity.this, "欢迎你 "+courseInfo.getStudent().getName()+"!", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-        }
-
-    }
     private void updateUIThread(CourseInfo courseInfo){
 
+        //保存到本地数据库的操作
         if (courseInfo != null) {
+            String studentId = courseInfo.getStudent().getStudentid();
+            for (Course course : courseInfo.getCourseList()) {
+                String courseId = course.getCourseId();
+                //判断该课程是否已经在本地数据库中
+                if (!CourseDB.getInstance(LoginActivity.this).isExistCourseList(studentId,courseId)){
+                    CourseDB.getInstance(LoginActivity.this).saveCourse(course,studentId);
+                }
+            }
+            MySharedPreference.saveStudent(LoginActivity.this,courseInfo.getStudent());
             CourseInfo data = (CourseInfo)getApplication();
             data.setCourseList(courseInfo.getCourseList());
             data.setStudent(courseInfo.getStudent());
 
             Toast.makeText(LoginActivity.this, "欢迎你 "+courseInfo.getStudent().getName()+"!", Toast.LENGTH_SHORT).show();
-            //先跳转到加载界面
+            //跳转到主界面
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
-            isLogin = true;
-            recordUserName.putValue("isLogin",isLogin);
 
         }
         else {
             Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
         }
-
     }
-    //弱引用LoginActivity，防止内存泄露
-    private static class MyHandler extends Handler {
-        private final WeakReference<LoginActivity> mActivity;
-
-        public MyHandler(LoginActivity activity) {
-            mActivity = new WeakReference<LoginActivity>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            System.out.println(msg);
-            if (mActivity.get() == null) {
-                return;
-            }
-            mActivity.get().updateUIThread(msg);
-        }
-    }
-
-
 
     //初始化账号自动补全中的字符串
     private void InitUserNameEdit(){
@@ -195,21 +140,13 @@ public class LoginActivity extends BaseActivity {
         userNameEdit.setAdapter(adapter);
     }
 
-    //判断之前是否已经登录过，在方法InitUserNameEdit之后调用
-    private void isLogined(){
-        //如果已经登录过了，就可以直接跳到主界面，不用再次登录
-        if (isLogin) {
-            //Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            //startActivity(intent);
-        }
-    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
     }
-
 
 
     public class MyTask extends AsyncTask<String ,Integer,String>{
@@ -287,15 +224,14 @@ public class LoginActivity extends BaseActivity {
         @Override
         protected void onProgressUpdate(Integer... progresses) {
             Log.i(TAG, "onProgressUpdate(Progress... progresses) called");
-            //tv_loading.setText("loading..." + progresses[0] + "%");
         }
 
         @Override
         protected void onPostExecute(String resultStr) {
-            if (!resultStr.equals("loginfail")){
-                Log.i(TAG, "onPostExecute(Result result) called");
-                Log.i(TAG, resultStr);
-                updateUIThread(XmlUtil.xmlToObject_CourseInfo(resultStr));
+            Log.d(TAG,resultStr);
+            if (!resultStr.equals("登录失败")){
+                Toast.makeText(LoginActivity.this, resultStr, Toast.LENGTH_SHORT).show();
+                updateUIThread(Utility.handleCourseInfo(resultStr));
             }
             else{
                 Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();

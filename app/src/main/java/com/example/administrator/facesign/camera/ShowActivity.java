@@ -5,55 +5,70 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.administrator.facesign.R;
+import com.example.administrator.facesign.util.FaceDetectionUtil;
+import com.example.administrator.facesign.util.ImageUtil;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 public class ShowActivity extends AppCompatActivity {
 
     private static final int Request_Camera=1;
     private Bitmap bitmap;
     private ImageView img_show;
     private RelativeLayout layout_load;
+
+    /**
+     * 图片保存的路径
+     */
+    private String filePath;
+
+    /**
+     * 拍照后返回的图片
+     */
+    private File imageFile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
+
+        initView();
+        startCamera();
+    }
+
+    private void initView(){
         img_show = (ImageView) findViewById(R.id.img_show);
         layout_load = (RelativeLayout) findViewById(R.id.layout_load);
         //设置不可见
         layout_load.setVisibility(View.INVISIBLE);
-        startCamera();
-
     }
 
+    /**
+     * 照相机的调用
+     */
     void startCamera(){
+        filePath = ImageUtil.getSaveImagePath();
+        imageFile = new File(filePath);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, Request_Camera);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile));
+        startActivityForResult(intent,Request_Camera);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Request_Camera && resultCode == Activity.RESULT_OK && null != data) {
-            Bundle bundle = data.getExtras();
-            bitmap = (Bitmap)bundle.get("data");
-            img_show.setImageBitmap(bitmap);
-            //saveBitmap(bitmap);
-        }
+        if (requestCode == Request_Camera && resultCode == Activity.RESULT_OK ) {
 
-        if (requestCode == Request_Camera && resultCode == Activity.RESULT_CANCELED && null != data) {
+            img_show.setImageBitmap(FaceDetectionUtil.findFace(filePath));
+            //刷新手机图库
+            ImageUtil.refreshGallery(ShowActivity.this, imageFile);
+        }
+        if (requestCode == Request_Camera && resultCode == Activity.RESULT_CANCELED) {
             finish();
         }
     }
@@ -67,54 +82,8 @@ public class ShowActivity extends AppCompatActivity {
 
     //开始识别
     public void onClick_upload(View view){
-        //设置不可见
         layout_load.setVisibility(View.VISIBLE);
-        if (bitmap!=null){
-            saveBitmap(bitmap);
-            Toast.makeText(ShowActivity.this, "图片保存成功", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(ShowActivity.this, "图片出错", Toast.LENGTH_SHORT).show();
-        }
     }
 
 
-    private boolean saveBitmap(Bitmap mybitmap) {
-        boolean result = false;
-
-        String path = Environment.getExternalStorageDirectory() + "/Images/";
-        File folder = new File(path);
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File file = new File(path + fileName);
-        if (!file.exists()) {
-            try {
-                // 判断SD卡是否存在，并且是否具有读写权限
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                    FileOutputStream fileOutputStream = new FileOutputStream(file);
-                    mybitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-
-                    //update gallery
-                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    Uri uri = Uri.fromFile(file);
-                    intent.setData(uri);
-                    this.sendBroadcast(intent);
-                    result = true;
-                } else {
-//                    Toast.makeText(MainActivity.this, "不能读取到SD卡", Toast.LENGTH_SHORT).show();
-                    result = false;
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
-    }
+}

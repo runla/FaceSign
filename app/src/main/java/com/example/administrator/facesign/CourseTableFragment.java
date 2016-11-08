@@ -1,8 +1,9 @@
 package com.example.administrator.facesign;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,13 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
 import com.example.administrator.facesign.entity.Student;
+import com.example.administrator.facesign.util.MySharedPreference;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,10 +65,14 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         view = inflater.inflate(R.layout.activity_course_table, container, false);
 
         //提取共享数据
-        courseInfo = (CourseInfo)getActivity().getApplication();
-        student = courseInfo.getStudent();
-        courseList = courseInfo.getCourseList();
+        //courseInfo = (CourseInfo)getActivity().getApplication();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        String studentId = preferences.getString("studentId","");
+        courseList = CourseDB.getInstance(getActivity()).loadCourseList(studentId);
+        student = MySharedPreference.loadStudent(getActivity());
+        //student = courseInfo.getStudent();
+        //courseList = courseInfo.getCourseList();
 
         InitView();
         // Inflate the layout for this fragment
@@ -150,7 +155,6 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         //Log.d(TAG,"AddCourse========="+courseInfo.getStudent().getName());
         int i = 0;
         for (Course course : courseList) {
-            //Log.d(TAG,"AddCourse=========周"+course.getDay()+"  start  "+course.getStartSection()+"  pos="+lastClassPos[course.getDay()-1]);
 
             //这里先设置了宽高
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,courseUnitHeight*course.getTotalSection());
@@ -170,26 +174,7 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
             //按照上课的节数设置按钮的高度
             button.setHeight(courseUnitHeight*course.getTotalSection());
 
-            //button.setTextColor(#333333);
-//
-//            course_btn[course.getDay()-1][dayCoursenum[course.getDay()-1]]=button;
-//            dayCoursenum[course.getDay()-1]++;
-
-
-           // Log.d(TAG,"AddCourse=========相对距离"+courseUnitHeight*(course.getStartSection()-lastClassPos[course.getDay()-1]-1));
-            //设置按钮相对于上一个按钮在竖直方向上的距离(当前课程开始节数-当天上一次上课最后一节课）
-            //button.setY(courseUnitHeight*(course.getStartSection()-lastClassPos[course.getDay()-1]-1));
-           // button.setTranslationY(courseUnitHeight*(course.getStartSection()-lastClassPos[course.getDay()-1]-1));
-           // button.setTranslationY((float) ((courseUnitHeight)*(course.getStartSection()-lastClassPos[course.getDay()-1]-1)));
-
-            /*int len1 = (course.getStartSection()-lastClassPos[course.getDay()-1]-1);
-            Log.d(TAG,"star1= "+course.getStartSection()+" last= "+lastClassPos[course.getDay()-1]+" len="+len1);
-            int len = (int) button.getY();
-            button.setText("len="+len+"len1="+len1);*/
-
             lastClassPos[course.getDay()-1]=course.getStartSection()+course.getTotalSection()-1;
-
-
 
             //设置课程按钮监听事件
             button.setOnClickListener(CourseTableFragment.this);
@@ -198,8 +183,6 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
             i++;
         }
-
-
 
         Log.d(TAG,"height="+courseUnitHeight+" width="+courseUnitWidth);
         Log.d(TAG,"AddCourse");
