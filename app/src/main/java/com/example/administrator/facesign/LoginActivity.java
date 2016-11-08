@@ -1,9 +1,10 @@
 package com.example.administrator.facesign;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -20,15 +21,13 @@ import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
 import com.example.administrator.facesign.tool.SharePreferencesHelper;
+import com.example.administrator.facesign.util.HttpCallbackListener;
+import com.example.administrator.facesign.util.HttpUtil;
+import com.example.administrator.facesign.util.ImageUtil;
 import com.example.administrator.facesign.util.MySharedPreference;
 import com.example.administrator.facesign.util.Utility;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.io.File;
 import java.util.ArrayList;
 
 public class LoginActivity extends BaseActivity {
@@ -53,6 +52,8 @@ public class LoginActivity extends BaseActivity {
     private TextView tv_loading;
 
     private ProgressBar bar_loading;
+
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +77,7 @@ public class LoginActivity extends BaseActivity {
                 loginBtn.setEnabled(false);
                 userNameEdit.setEnabled(false);
                 passwordEdit.setEnabled(false);
+                username = userNameEdit.getText().toString().trim();
                 //记录新登录用户账号
                 if (!recordUserName.isExist(userNameEdit.getText().toString())){//没有被记录则再添加一条新的记录
                     recordUserName.putValueToStringList(userNameEdit.getText().toString());
@@ -83,8 +85,11 @@ public class LoginActivity extends BaseActivity {
             //原型进度条
             bar_loading.setVisibility(View.VISIBLE);
 
-            MyTask task = new MyTask();
-            task.execute("http://192.168.253.1:8080/webtest/loginaction",userNameEdit.getText().toString(),passwordEdit.getText().toString());
+            //MyTask task = new MyTask();
+            //task.execute("http://192.168.253.1:8080/webtest/loginaction",userNameEdit.getText().toString(),passwordEdit.getText().toString());
+            String urlPath = "http://192.168.253.1:8080/webtest/loginaction?username="+userNameEdit.getText().toString().trim()
+                    +"&password=" + passwordEdit.getText().toString();
+            queryFromServer(urlPath);
         }
         else
         {
@@ -101,6 +106,85 @@ public class LoginActivity extends BaseActivity {
         passwordEdit.setEnabled(true);
     }
 
+
+    //初始化账号自动补全中的字符串
+    private void InitUserNameEdit(){
+        strList = new ArrayList<String>();
+        recordUserName= new SharePreferencesHelper(LoginActivity.this,File_Name);
+        isLogin = recordUserName.getBoolean("isLogin");
+
+        strList = recordUserName.getStringList();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strList);
+        userNameEdit.setAdapter(adapter);
+    }
+
+    public void queryFromServer(String urlPath){
+        HttpUtil.getHttpToString(urlPath, new HttpCallbackListener() {
+            @Override
+            public void onFinishStr(String response) {
+                if (!TextUtils.isEmpty(response) && !response.equals("password id error")) {
+                    //获取个人图片
+                    File file = new File(ImageUtil.getPersonalImagePath(username));
+                    if (!file.exists()) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, "获取图片", Toast.LENGTH_SHORT).show();
+                                String urlPath = "http://localhost:8080/webtest/downloadImage?username="+username;
+                                queryPersonalImageFromServer(urlPath);
+                            }
+                        });
+
+                    }
+                    //处理个人数据
+                    courseInfo = Utility.handleCourseInfo(response);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateUIThread(courseInfo);
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFinishTypeArray(byte[] response) {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+
+            });
+    }
+
+    public void queryPersonalImageFromServer(String urlPath){
+        Toast.makeText(LoginActivity.this, ""+urlPath, Toast.LENGTH_SHORT).show();
+        HttpUtil.getHttpToByteArray(urlPath, new HttpCallbackListener() {
+            @Override
+            public void onFinishStr(String response) {
+
+            }
+
+            @Override
+            public void onFinishTypeArray(byte[] response) {
+
+                Toast.makeText(LoginActivity.this, ""+response.length, Toast.LENGTH_SHORT).show();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(response,0,response.length);
+                ImageUtil.saveBitmap(LoginActivity.this,bitmap,username);
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+        });
+    }
     private void updateUIThread(CourseInfo courseInfo){
 
         //保存到本地数据库的操作
@@ -114,33 +198,16 @@ public class LoginActivity extends BaseActivity {
                 }
             }
             MySharedPreference.saveStudent(LoginActivity.this,courseInfo.getStudent());
-            CourseInfo data = (CourseInfo)getApplication();
-            data.setCourseList(courseInfo.getCourseList());
-            data.setStudent(courseInfo.getStudent());
 
-            Toast.makeText(LoginActivity.this, "欢迎你 "+courseInfo.getStudent().getName()+"!", Toast.LENGTH_SHORT).show();
             //跳转到主界面
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             startActivity(intent);
-
+            Toast.makeText(LoginActivity.this, "欢迎你 "+courseInfo.getStudent().getName()+"!", Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
         }
     }
-
-    //初始化账号自动补全中的字符串
-    private void InitUserNameEdit(){
-        strList = new ArrayList<String>();
-        recordUserName= new SharePreferencesHelper(LoginActivity.this,File_Name);
-        isLogin = recordUserName.getBoolean("isLogin");
-
-        strList = recordUserName.getStringList();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strList);
-        userNameEdit.setAdapter(adapter);
-    }
-
-
 
     @Override
     protected void onDestroy() {
@@ -148,7 +215,7 @@ public class LoginActivity extends BaseActivity {
         ActivityCollector.removeActivity(this);
     }
 
-
+/*
     public class MyTask extends AsyncTask<String ,Integer,String>{
 
         @Override
@@ -242,4 +309,5 @@ public class LoginActivity extends BaseActivity {
             }
         }
     }
+    */
 }

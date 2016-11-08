@@ -86,7 +86,7 @@ public class FaceDetectionUtil {
             JSONObject result1 = httpRequests.detectionDetect(new PostParameters().setImg(array1));
             String face1 = result1.getJSONArray("face").getJSONObject(0).getString("face_id");
 
-            //获取第一张图片的信息
+            //获取第二张图片的信息
             byte[] array2 = ImageUtil.imageProcessing(secondPath);
             JSONObject result2 = httpRequests.detectionDetect(new PostParameters().setImg(array2));
             String face2 = result2.getJSONArray("face").getJSONObject(0).getString("face_id");

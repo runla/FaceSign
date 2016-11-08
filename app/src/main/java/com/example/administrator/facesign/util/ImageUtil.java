@@ -19,16 +19,11 @@ import java.io.IOException;
  */
 public class ImageUtil {
 
-    public static boolean saveBitmap(Context context,Bitmap mybitmap) {
+    public static boolean saveBitmap(Context context,Bitmap mybitmap,String studentid) {
         boolean result = false;
 
-        String path = Environment.getExternalStorageDirectory() + "/Images/";
-        File folder = new File(path);
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File file = new File(path + fileName);
+        String urlPath = getPersonalImagePath(studentid);
+        File file = new File(urlPath);
         if (!file.exists()) {
             try {
                 // 判断SD卡是否存在，并且是否具有读写权限
@@ -57,6 +52,16 @@ public class ImageUtil {
         return false;
     }
 
+    /**
+     * 个人图片保存路径
+     * @param studentid
+     * @return
+     */
+    public static String getPersonalImagePath(String studentid){
+        String path = Environment.getExternalStorageDirectory() + "/aImage/";
+        path += studentid+".jpg";
+        return path;
+    }
     /**
      * 获取拍照后图片保存的路径
      * @return
