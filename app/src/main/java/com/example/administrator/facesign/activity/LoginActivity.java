@@ -1,4 +1,4 @@
-package com.example.administrator.facesign;
+package com.example.administrator.facesign.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,12 +17,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.administrator.facesign.activity.BaseActivity;
-import com.example.administrator.facesign.collector.ActivityCollector;
+import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
-import com.example.administrator.facesign.tool.SharePreferencesHelper;
 import com.example.administrator.facesign.util.HttpCallbackListener;
 import com.example.administrator.facesign.util.HttpUtil;
 import com.example.administrator.facesign.util.ImageUtil;
@@ -44,7 +42,6 @@ public class LoginActivity extends BaseActivity {
     //保存在手机的账号列表
     private ArrayList<String> strList;
     //自定义工具类，用来保存账号信息
-    private SharePreferencesHelper recordUserName;//自定义类
     //保存账号文件名
     private static final String File_Name="RecordAccount";
 
@@ -109,10 +106,7 @@ public class LoginActivity extends BaseActivity {
             password = passwordEdit.getText().toString().trim();
             savePasswor();
 
-            //记录新登录用户账号
-            /*if (!recordUserName.isExist(userNameEdit.getText().toString())){//没有被记录则再添加一条新的记录
-                recordUserName.putValueToStringList(userNameEdit.getText().toString());
-            }*/
+
             //原型进度条
             bar_loading.setVisibility(View.VISIBLE);
 

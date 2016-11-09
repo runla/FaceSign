@@ -1,4 +1,4 @@
-package com.example.administrator.facesign;
+package com.example.administrator.facesign.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.administrator.facesign.activity.BaseActivity;
-import com.example.administrator.facesign.camera.ShowActivity;
-import com.example.administrator.facesign.collector.ActivityCollector;
+import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.entity.Course;
 
 

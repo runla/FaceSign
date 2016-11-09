@@ -1,4 +1,4 @@
-package com.example.administrator.facesign;
+package com.example.administrator.facesign.fragment;
 
 
 import android.graphics.Bitmap;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.entity.Student;
 import com.example.administrator.facesign.util.ImageUtil;
 import com.example.administrator.facesign.util.MySharedPreference;

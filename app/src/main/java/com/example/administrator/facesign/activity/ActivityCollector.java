@@ -1,4 +1,4 @@
-package com.example.administrator.facesign.collector;
+package com.example.administrator.facesign.activity;
 
 import android.app.Activity;
 

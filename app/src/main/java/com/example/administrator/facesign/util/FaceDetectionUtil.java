@@ -75,7 +75,7 @@ public class FaceDetectionUtil {
      * @param secondPath
      * @return
      */
-    public static Double facePlusPlusRecognitionCompare(String firstPath, String secondPath){
+    private static Double facePlusPlusRecognitionCompare(String firstPath, String secondPath){
 
         //初始化
         HttpRequests httpRequests = new HttpRequests("14494aa3e3b1587c99d260a779c300b0","Rdgg9mNFpBDuXN3A9cZ_BItSjst0raLd",true, true);
@@ -108,5 +108,29 @@ public class FaceDetectionUtil {
             e.printStackTrace();
         }
         return -1.1;
+    }
+
+    //识别失败
+    public static final int RECOGNITION_FAIL = -1;
+    //识别成功，正常签到
+    public static final int RECOGNITION_SUCCESS = 1;
+    //识别成功，迟到
+    public static final int RECOGNITION_LATE = 2;
+    //识别成功，旷课
+    public static final int RECOGNITION_ABSENT = 3;
+
+    public static void faceRecognitionStart(final String firstPath, final String secondPath, final FaceRecognitionCallbackListener listener){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Double simail = facePlusPlusRecognitionCompare(firstPath,secondPath);
+                if (simail > 60.0){
+                    listener.recognitionSuccess(RECOGNITION_SUCCESS);
+                }
+                else{
+                    listener.recognitionSuccess(RECOGNITION_FAIL);
+                }
+            }
+        }).start();
     }
 }

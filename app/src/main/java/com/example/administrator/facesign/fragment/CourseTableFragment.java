@@ -1,4 +1,4 @@
-package com.example.administrator.facesign;
+package com.example.administrator.facesign.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.administrator.facesign.activity.ActivityCourseSign;
+import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;

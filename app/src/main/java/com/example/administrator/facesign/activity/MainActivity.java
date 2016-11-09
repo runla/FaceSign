@@ -1,4 +1,4 @@
-package com.example.administrator.facesign;
+package com.example.administrator.facesign.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +8,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.activity.BaseActivity;
-import com.example.administrator.facesign.collector.ActivityCollector;
+import com.example.administrator.facesign.activity.ActivityCollector;
+import com.example.administrator.facesign.fragment.CourseTableFragment;
+import com.example.administrator.facesign.fragment.Fragment_3;
+import com.example.administrator.facesign.fragment.PersonalInfoFragment;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 

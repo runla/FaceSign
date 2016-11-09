@@ -15,9 +15,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ActivityCourseSign" />
-        <activity android:name=".LoginActivity"
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.ActivityCourseSign" />
+        <activity android:name=".activity.LoginActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,8 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".camera.CamreaActivity" />
-        <activity android:name=".camera.ShowActivity">
+        <activity android:name=".activity.ShowActivity">
 
         </activity>
         <activity
