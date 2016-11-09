@@ -1,9 +1,11 @@
 package com.example.administrator.facesign;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +27,7 @@ import com.example.administrator.facesign.util.HttpCallbackListener;
 import com.example.administrator.facesign.util.HttpUtil;
 import com.example.administrator.facesign.util.ImageUtil;
 import com.example.administrator.facesign.util.MySharedPreference;
+import com.example.administrator.facesign.util.UrlUtil;
 import com.example.administrator.facesign.util.Utility;
 
 import java.io.File;
@@ -53,15 +56,38 @@ public class LoginActivity extends BaseActivity {
 
     private ProgressBar bar_loading;
 
+    /**
+     * 账号（学号）
+     */
     private String username;
+    /**
+     * 账号密码
+     */
+    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_login);
         ActivityCollector.addActivity(this);
+        //获取保存在本地的账号密码
+
         InitUI();
         InitUserNameEdit();
+    }
+    private void savePasswor(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("studentId",username);
+        editor.putString("password",password);
+        editor.commit();
+    }
+    private void getPassword(){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+        username = preferences.getString("studentId","");
+        password = preferences.getString("password","");
+        userNameEdit.setText(username);
+        passwordEdit.setText(password);
     }
     //初始化控件
     private void InitUI(){
@@ -70,25 +96,29 @@ public class LoginActivity extends BaseActivity {
         loginBtn = (Button) findViewById(R.id.login_button);
         bar_loading = (ProgressBar) findViewById(R.id.bar_loading);
         bar_loading.setVisibility(View.INVISIBLE);
+
+        getPassword();
     }
     //点击登录按钮事件
     public void onClickLoginBtn(View view) {
         if (!userNameEdit.getText().toString().isEmpty() && !passwordEdit.getText().toString().isEmpty()){
-                loginBtn.setEnabled(false);
-                userNameEdit.setEnabled(false);
-                passwordEdit.setEnabled(false);
-                username = userNameEdit.getText().toString().trim();
-                //记录新登录用户账号
-                if (!recordUserName.isExist(userNameEdit.getText().toString())){//没有被记录则再添加一条新的记录
-                    recordUserName.putValueToStringList(userNameEdit.getText().toString());
-                }
+            loginBtn.setEnabled(false);
+            userNameEdit.setEnabled(false);
+            passwordEdit.setEnabled(false);
+            username = userNameEdit.getText().toString().trim();
+            password = passwordEdit.getText().toString().trim();
+            savePasswor();
+
+            //记录新登录用户账号
+            /*if (!recordUserName.isExist(userNameEdit.getText().toString())){//没有被记录则再添加一条新的记录
+                recordUserName.putValueToStringList(userNameEdit.getText().toString());
+            }*/
             //原型进度条
             bar_loading.setVisibility(View.VISIBLE);
 
             //MyTask task = new MyTask();
             //task.execute("http://192.168.253.1:8080/webtest/loginaction",userNameEdit.getText().toString(),passwordEdit.getText().toString());
-            String urlPath = "http://192.168.253.1:8080/webtest/loginaction?username="+userNameEdit.getText().toString().trim()
-                    +"&password=" + passwordEdit.getText().toString();
+            String urlPath = UrlUtil.getLoginUrl(username,password);
             queryFromServer(urlPath);
         }
         else
@@ -110,10 +140,8 @@ public class LoginActivity extends BaseActivity {
     //初始化账号自动补全中的字符串
     private void InitUserNameEdit(){
         strList = new ArrayList<String>();
-        recordUserName= new SharePreferencesHelper(LoginActivity.this,File_Name);
-        isLogin = recordUserName.getBoolean("isLogin");
 
-        strList = recordUserName.getStringList();
+        strList.add(username);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strList);
         userNameEdit.setAdapter(adapter);
     }
@@ -126,15 +154,9 @@ public class LoginActivity extends BaseActivity {
                     //获取个人图片
                     File file = new File(ImageUtil.getPersonalImagePath(username));
                     if (!file.exists()) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(LoginActivity.this, "获取图片", Toast.LENGTH_SHORT).show();
-                                String urlPath = "http://localhost:8080/webtest/downloadImage?username="+username;
-                                queryPersonalImageFromServer(urlPath);
-                            }
-                        });
-
+                        String urlPath = UrlUtil.getDownloadImageUrl(username);
+                        //获取网上图片
+                        queryPersonalImageFromServer(urlPath);
                     }
                     //处理个人数据
                     courseInfo = Utility.handleCourseInfo(response);
@@ -164,7 +186,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void queryPersonalImageFromServer(String urlPath){
-        Toast.makeText(LoginActivity.this, ""+urlPath, Toast.LENGTH_SHORT).show();
         HttpUtil.getHttpToByteArray(urlPath, new HttpCallbackListener() {
             @Override
             public void onFinishStr(String response) {
@@ -173,15 +194,13 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFinishTypeArray(byte[] response) {
-
-                Toast.makeText(LoginActivity.this, ""+response.length, Toast.LENGTH_SHORT).show();
                 Bitmap bitmap = BitmapFactory.decodeByteArray(response,0,response.length);
                 ImageUtil.saveBitmap(LoginActivity.this,bitmap,username);
             }
 
             @Override
             public void onError(Exception e) {
-
+                e.printStackTrace();
             }
         });
     }
