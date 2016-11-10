@@ -75,6 +75,26 @@ public class FaceDetectionUtil {
         bitmapOption.inPreferredConfig = Bitmap.Config.RGB_565;
         byte[] array = ImageUtil.imageProcessing(filePath);//对图片进行压缩
         //获取图片资源
+        Bitmap bitmap = BitmapFactory.decodeByteArray(array,0,array.length,bitmapOption);
+
+        //假设最多有5张脸
+        int numOfFaces = 5;
+        FaceDetector mFaceDetector = new FaceDetector(bitmap.getWidth(),bitmap.getHeight(),numOfFaces);
+        FaceDetector.Face[] mFace = new FaceDetector.Face[numOfFaces];
+
+        //实际上有几张脸
+        numOfFaces = mFaceDetector.findFaces(bitmap, mFace);
+
+
+        listener.listenFaceNum(numOfFaces);
+        listener.getBitmap(bitmap);
+    }
+    //包含回调函数
+    public static void findFaceAndDrwIt(String filePath,FindFaceCallbackListener listener){
+        BitmapFactory.Options bitmapOption = new BitmapFactory.Options();
+        bitmapOption.inPreferredConfig = Bitmap.Config.RGB_565;
+        byte[] array = ImageUtil.imageProcessing(filePath);//对图片进行压缩
+        //获取图片资源
         Bitmap bitmap = BitmapFactory.decodeByteArray(array,0,array.length,bitmapOption).copy(Bitmap.Config.RGB_565, true);
 
         //假设最多有5张脸
@@ -112,7 +132,6 @@ public class FaceDetectionUtil {
         listener.listenFaceNum(numOfFaces);
         listener.getBitmap(bitmap);
     }
-
 
 
 

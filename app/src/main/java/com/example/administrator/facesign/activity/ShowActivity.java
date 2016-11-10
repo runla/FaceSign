@@ -13,8 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.administrator.facesign.R;
+import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.util.FaceDetectionUtil;
 import com.example.administrator.facesign.util.FaceRecognitionCallbackListener;
 import com.example.administrator.facesign.util.FindFaceCallbackListener;
@@ -22,7 +24,6 @@ import com.example.administrator.facesign.util.HttpCallbackListener;
 import com.example.administrator.facesign.util.HttpUtil;
 import com.example.administrator.facesign.util.ImageUtil;
 import com.example.administrator.facesign.util.UrlUtil;
-import com.mingle.widget.LoadingView;
 
 import java.io.File;
 
@@ -40,7 +41,7 @@ public class ShowActivity extends AppCompatActivity {
     private ImageView img_show;
 
     //加载动画
-    private LoadingView loadingView;
+    private ProgressBar   loadingView;
     /**
      * 图片保存的路径
      */
@@ -50,10 +51,18 @@ public class ShowActivity extends AppCompatActivity {
      * 拍照后返回的图片
      */
     private File imageFile;
+
+    private Course course;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
+
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        course = (Course) bundle.getSerializable("course");
+
+
 
         initView();
         startCamera();
@@ -61,7 +70,7 @@ public class ShowActivity extends AppCompatActivity {
 
     private void initView(){
         img_show = (ImageView) findViewById(R.id.img_show);
-        loadingView = (LoadingView) findViewById(R.id.loadView);
+        loadingView = (ProgressBar) findViewById(R.id.loadView);
 
         dismissLoadView();
     }
@@ -170,6 +179,7 @@ public class ShowActivity extends AppCompatActivity {
                 startCamera();
             }
         });
+
         builder.show();
     }
 

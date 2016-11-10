@@ -1,5 +1,6 @@
 package com.example.administrator.facesign.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.administrator.facesign.R;
-import com.example.administrator.facesign.activity.ActivityCourseSign;
+import com.example.administrator.facesign.activity.ShowActivity;
 import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
@@ -122,16 +123,12 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
         //SpinnerAdapter adapter = new SpinnerAdapter(list,getActivity());
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,list);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        //setDropDownHeight(200);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,int pos, long id) {
 
-               // String[] languages = getResources().getStringArray(R.array.languages);
-               // Toast.makeText(MainActivity.this, "你点击的是:"+languages[pos], 2000).show();
             }
 
             @Override
@@ -245,17 +242,60 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         int i = courseList.size()-1;
         while(i >=0){
             if (view.getId()==baseId+i) {
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putSerializable("course",courseList.get(i));
                 Intent intent = new Intent(getActivity(),ActivityCourseSign.class);
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivity(intent);*/
                // Toast.makeText(getActivity(), "button1", Toast.LENGTH_SHORT).show();
+                showCourseInfoDiaglog(courseList.get(i));
                 break;
             }
             i--;
         }
 
+    }
+
+    private void showCourseInfoDiaglog(final Course course){
+        List<String> list = new ArrayList<String>();
+       // list.add(course.getCourseName());
+        list.add("教室  "+course.getRoom());
+        list.add("教师  "+course.getTeacherName()+"/"+course.getTeacherId());
+        list.add("节数  "+course.getStartSection()+"-"+(course.getTotalSection()+course.getStartSection()-1)+"节");
+        String week="";
+        if (course.getSingleOrDouble() ==1){
+            week = "(单周)";
+        }
+        else if (course.getSingleOrDouble() == 2){
+            week = "(双周)";
+        }
+        else {
+            week="";
+        }
+        list.add("周数  "+course.getStartWeek()+"-"+(course.getTotalWeeks()+course.getStartWeek()-1)+"周"+week);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,list);
+
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+        builder.setTitle(course.getCourseName());
+        builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+
+        builder.setPositiveButton("签到", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("course",course);
+                Intent intent = new Intent(getActivity(),ShowActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+        builder.show();
     }
 
 }
