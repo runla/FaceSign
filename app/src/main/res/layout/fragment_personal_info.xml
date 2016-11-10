@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/myBackgroud"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include layout="@layout/top"></include>
     <include layout="@layout/header"></include>
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+      <!--  <ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
+            android:textColor="@android:color/white"
             style="@style/tv_style"
             android:text="@string/person_info_fragment_number"/>
         <TextView
+            android:textColor="@android:color/white"
             android:id="@+id/tv_personal_number"
             style="@style/tv_style"/>
     </LinearLayout>
@@ -27,14 +31,16 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+      <!--  <ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
+            android:textColor="@android:color/white"
             style="@style/tv_style"
             android:text="@string/person_info_fragment_major"/>
         <TextView
+            android:textColor="@android:color/white"
             android:id="@+id/tv_personal_majar"
             style="@style/tv_style"/>
     </LinearLayout>
@@ -44,14 +50,16 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+     <!--   <ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
+            android:textColor="@android:color/white"
             style="@style/tv_style"
             android:text="@string/person_info_fragment_school"/>
         <TextView
+            android:textColor="@android:color/white"
             android:id="@+id/tv_personal_schools"
             style="@style/tv_style"/>
     </LinearLayout>
@@ -61,14 +69,16 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageView
+   <!--     <ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
+            android:textColor="@android:color/white"
             style="@style/tv_style"
             android:text="@string/person_info_fragment_grade"/>
         <TextView
+            android:textColor="@android:color/white"
             android:id="@+id/tv_personal_grade"
             style="@style/tv_style"/>
     </LinearLayout>

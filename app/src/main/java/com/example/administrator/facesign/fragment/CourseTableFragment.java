@@ -9,22 +9,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.administrator.facesign.activity.ActivityCourseSign;
 import com.example.administrator.facesign.R;
+import com.example.administrator.facesign.activity.ActivityCourseSign;
 import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
 import com.example.administrator.facesign.entity.Student;
 import com.example.administrator.facesign.util.MySharedPreference;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -54,6 +57,8 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
     private Student student;
     private List<Course> courseList = new ArrayList<>();
+
+    private Spinner spinner;
 
     public CourseTableFragment() {
         // Required empty public constructor
@@ -94,7 +99,8 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
         textView_day = (TextView)view.findViewById(R.id.tv_day1);
         textView_section = (TextView)view.findViewById(R.id.tv_section1);
-
+        spinner = (Spinner) view.findViewById(R.id.spinner1);
+        initSpinner();
         //获取控件的宽度和高度
         //Handler hander = new Handler();
         textView_section.post(new Runnable() {
@@ -107,6 +113,49 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
                 AddCourse();
             }
         });
+    }
+    private void initSpinner(){
+        List<String> list = new ArrayList<String>();
+        for (int i = 1; i <= 25; i++) {
+            list.add("第"+i+"周");
+        }
+
+        //SpinnerAdapter adapter = new SpinnerAdapter(list,getActivity());
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,list);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        //setDropDownHeight(200);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,int pos, long id) {
+
+               // String[] languages = getResources().getStringArray(R.array.languages);
+               // Toast.makeText(MainActivity.this, "你点击的是:"+languages[pos], 2000).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+//设置spinner下拉框的高度
+    public void setDropDownHeight(int pHeight) {
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
+
+            // Set popupWindow height to 500px
+            popupWindow.setHeight(pHeight);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
     /*
     * 动态添加课程
@@ -133,7 +182,7 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         dayCoursenum[5] = 0;
         dayCoursenum[6] = 0;
 
-        Button course_btn[][] = new Button[7][7];
+       // Button course_btn[][] = new Button[7][7];
 
         Course[] c = new Course[courseList.size()];
        // Course[] c = (Course[]) courseList.toArray();
@@ -157,12 +206,14 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         //Log.d(TAG,"AddCourse========="+courseInfo.getStudent().getName());
         int i = 0;
         for (Course course : courseList) {
-
-            //这里先设置了宽高
+             //这里先设置了宽高
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,courseUnitHeight*course.getTotalSection());
             //params.setMargins(0,(course.getStartSection()-1)*courseUnitHeight,0,0);
             params.setMargins(0,courseUnitHeight*(course.getStartSection()-lastClassPos[course.getDay()-1]-1),0,0);
             Button button = new Button(getActivity());
+
+            button.setBackgroundResource(R.drawable.backgroud_course_btn);
+            button.setTextColor(getResources().getColor(R.color.text_color));
 
             button.setLayoutParams(params);
             //设置按钮的资源id
@@ -186,9 +237,7 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
             i++;
         }
 
-        Log.d(TAG,"height="+courseUnitHeight+" width="+courseUnitWidth);
-        Log.d(TAG,"AddCourse");
-    }
+     }
 
 
     @Override

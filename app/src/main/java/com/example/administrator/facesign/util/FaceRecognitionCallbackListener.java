@@ -5,4 +5,5 @@ package com.example.administrator.facesign.util;
  */
 public interface FaceRecognitionCallbackListener {
     void recognitionSuccess(int result);
+    void recognitionFail(int result);
 }

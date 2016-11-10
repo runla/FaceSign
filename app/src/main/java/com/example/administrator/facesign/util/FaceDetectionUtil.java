@@ -69,6 +69,54 @@ public class FaceDetectionUtil {
         return bitmap;
     }
 
+    //包含回调函数
+    public static void findFace(String filePath,FindFaceCallbackListener listener){
+        BitmapFactory.Options bitmapOption = new BitmapFactory.Options();
+        bitmapOption.inPreferredConfig = Bitmap.Config.RGB_565;
+        byte[] array = ImageUtil.imageProcessing(filePath);//对图片进行压缩
+        //获取图片资源
+        Bitmap bitmap = BitmapFactory.decodeByteArray(array,0,array.length,bitmapOption).copy(Bitmap.Config.RGB_565, true);
+
+        //假设最多有5张脸
+        int numOfFaces = 5;
+        FaceDetector mFaceDetector = new FaceDetector(bitmap.getWidth(),bitmap.getHeight(),numOfFaces);
+        FaceDetector.Face[] mFace = new FaceDetector.Face[numOfFaces];
+
+        //实际上有几张脸
+        numOfFaces = mFaceDetector.findFaces(bitmap, mFace);
+
+        Paint mPaint = new Paint();
+        //画笔颜色
+        mPaint.setColor(Color.GREEN);
+        //画笔的样式是矩形框，不是矩形块
+        mPaint.setStyle(Paint.Style.STROKE);
+        //线宽
+        mPaint.setStrokeWidth(2.0f);
+        float eyesDistance = 0f;
+
+        Canvas canvas = new Canvas(bitmap);
+        for (int i = 0; i < numOfFaces; i++) {
+            PointF eyeMidPoint = new PointF();
+            //两眼的中点距离
+            mFace[i].getMidPoint(eyeMidPoint);
+            //两眼之间的距离
+            eyesDistance = mFace[i].eyesDistance();
+
+            //画矩形框
+            canvas.drawRect((int)(eyeMidPoint.x-eyesDistance),
+                    (int)(eyeMidPoint.y-eyesDistance),
+                    (int)(eyeMidPoint.x+eyesDistance),
+                    (int)(eyeMidPoint.y+eyesDistance),
+                    mPaint);
+        }
+        listener.listenFaceNum(numOfFaces);
+        listener.getBitmap(bitmap);
+    }
+
+
+
+
+
     /**
      * 使用face++接口进行人脸识别
      * @param firstPath
@@ -126,9 +174,11 @@ public class FaceDetectionUtil {
                 Double simail = facePlusPlusRecognitionCompare(firstPath,secondPath);
                 if (simail > 60.0){
                     listener.recognitionSuccess(RECOGNITION_SUCCESS);
+                    listener.recognitionFail(0);
                 }
                 else{
-                    listener.recognitionSuccess(RECOGNITION_FAIL);
+                    listener.recognitionSuccess(0);
+                    listener.recognitionFail(RECOGNITION_FAIL);
                 }
             }
         }).start();

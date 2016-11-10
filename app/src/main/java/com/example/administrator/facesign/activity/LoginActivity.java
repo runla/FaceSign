@@ -28,7 +28,6 @@ import com.example.administrator.facesign.util.MySharedPreference;
 import com.example.administrator.facesign.util.UrlUtil;
 import com.example.administrator.facesign.util.Utility;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class LoginActivity extends BaseActivity {
@@ -146,12 +145,12 @@ public class LoginActivity extends BaseActivity {
             public void onFinishStr(String response) {
                 if (!TextUtils.isEmpty(response) && !response.equals("password id error")) {
                     //获取个人图片
-                    File file = new File(ImageUtil.getPersonalImagePath(username));
-                    if (!file.exists()) {
+                  //  File file = new File(ImageUtil.getPersonalImagePath(username));
+                  //  if (!file.exists()) {
                         String urlPath = UrlUtil.getDownloadImageUrl(username);
                         //获取网上图片
                         queryPersonalImageFromServer(urlPath);
-                    }
+                   // }
                     //处理个人数据
                     courseInfo = Utility.handleCourseInfo(response);
                     runOnUiThread(new Runnable() {
@@ -173,7 +172,16 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onError(Exception e) {
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        loginBtn.setEnabled(true);
+                        bar_loading.setVisibility(View.INVISIBLE);
+                        userNameEdit.setEnabled(true);
+                        passwordEdit.setEnabled(true);
+                        Toast.makeText(LoginActivity.this, "网络连接错误", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             });

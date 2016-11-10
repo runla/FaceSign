@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_login"
+    android:background="@color/myBackgroud"
     android:layout_margin="0dp"
     tools:context=".activity.LoginActivity"
     android:orientation="vertical">
@@ -82,11 +82,14 @@
         android:layout_marginLeft="15dip"
         android:layout_marginRight="15dip"
         android:layout_marginTop="25dip"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:background="@drawable/backgroup_login_button"
         android:layout_gravity="center_horizontal"
         android:textColor="#ffffff"
         android:onClick="onClickLoginBtn" />
+
+
+
 
     <RelativeLayout
         android:layout_width="fill_parent"

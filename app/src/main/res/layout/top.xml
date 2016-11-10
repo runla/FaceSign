@@ -6,16 +6,11 @@
     android:background="@color/backgroud_line_top"
     android:layout_height="@dimen/linear_week_height">
 
-<!--    <TextView
+    <TextView
+        android:id="@+id/tv_title"
+        android:textColor="@android:color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/linear_week_textsize"
-        android:text="第四周"/>-->
-    <Spinner
-        android:id="@+id/spinner1"
-        android:minHeight="12dp"
-        android:spinnerMode="dropdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"></Spinner>
-
+        />
 </LinearLayout>

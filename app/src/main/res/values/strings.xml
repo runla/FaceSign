@@ -9,7 +9,7 @@
     <string name="login_button_cancel">取消</string>
 
     <!-- loading string -->
-    <string name="loading_label_isLogining">正在登录...</string>
+    <string name="loading_label_isLogining">识别中...</string>
     <string name="loading_btn_cannel">取消</string>
 
 

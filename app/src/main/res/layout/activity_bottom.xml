@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="@drawable/title_tab">
+    android:background="@color/backgroud_line_buttom">
 
     <LinearLayout
         android:id="@+id/line1"

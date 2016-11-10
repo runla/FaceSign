@@ -7,6 +7,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
+
+import com.example.administrator.facesign.activity.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -20,11 +23,12 @@ import java.io.IOException;
 public class ImageUtil {
 
     public static boolean saveBitmap(Context context,Bitmap mybitmap,String studentid) {
+        Log.d(BaseActivity.TAG,"saveBitmap");
         boolean result = false;
-
         String urlPath = getPersonalImagePath(studentid);
         File file = new File(urlPath);
-        if (!file.exists()) {
+  //      if (!file.exists()) {
+            Log.d(BaseActivity.TAG,"file is no exist");
             try {
                 // 判断SD卡是否存在，并且是否具有读写权限
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -48,7 +52,7 @@ public class ImageUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+      //  }
         return false;
     }
 

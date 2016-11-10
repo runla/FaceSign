@@ -4,15 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/myBackgroud"
     tools:context=".activity.ActivityCourseSign">
 
-
+    <include layout="@layout/top"></include>
     <LinearLayout
         style="@style/linear_sign_style">
-        <ImageView
+       <!-- <ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
             style="@style/tv_sign_style"
             android:text="@string/course_sign_activity_name"/>
@@ -25,10 +26,10 @@
 
     <LinearLayout
         style="@style/linear_sign_style">
-        <ImageView
+        <!--<ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
             style="@style/tv_sign_style"
             android:text="@string/course_sign_activity_class"/>
@@ -41,10 +42,10 @@
 
     <LinearLayout
         style="@style/linear_sign_style">
-        <ImageView
+        <!--<ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
             style="@style/tv_sign_style"
             android:text="@string/course_sign_activity_teacher"/>
@@ -57,10 +58,10 @@
 
     <LinearLayout
         style="@style/linear_sign_style">
-        <ImageView
+     <!--   <ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
             style="@style/tv_sign_style"
             android:text="@string/course_sign_activity_section"/>
@@ -72,10 +73,10 @@
 
     <LinearLayout
         style="@style/linear_sign_style">
-        <ImageView
+      <!--  <ImageView
             android:layout_width="@dimen/personal_info_activity_image_width"
             android:layout_height="@dimen/personal_info_activity_image_height"
-            android:src="@drawable/me_normal"/>
+            android:src="@drawable/me_normal"/>-->
         <TextView
             style="@style/tv_sign_style"
             android:text="@string/course_sign_activity_weeks"/>
@@ -87,23 +88,36 @@
 
 
     <RelativeLayout
+        android:gravity="bottom"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Button
+            android:background="@drawable/backgroup_login_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
             android:text="@string/course_sign_activity_btn_sign"
             android:id="@+id/btn_sign"
+            android:textColor="@android:color/white"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
         <Button
+            android:background="@drawable/backgroud_cannel_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
             android:text="@string/course_sign_activity_btn_cannel"
+            android:textColor="@android:color/white"
             android:id="@+id/btn_back"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="10dip"
             android:layout_below="@+id/btn_sign"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>

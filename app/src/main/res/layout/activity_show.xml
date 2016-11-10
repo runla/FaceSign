@@ -54,6 +54,7 @@
                 android:onClick="onClick_Cannel" />
         </RelativeLayout>
 
+
         <RelativeLayout
             android:id="@+id/layout_load"
             android:layout_width="fill_parent"
@@ -61,18 +62,17 @@
             android:layout_weight="3"
             android:layout_gravity="center">
 
-            <ProgressBar
-                android:id="@+id/bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true" />
+            <com.mingle.widget.LoadingView
+                android:id="@+id/loadView"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"/>
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_below="@+id/bar"
+                android:layout_below="@+id/loadView"
                 android:text="@string/loading_label_isLogining"/>
 
         </RelativeLayout>

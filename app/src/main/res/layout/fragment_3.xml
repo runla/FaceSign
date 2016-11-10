@@ -2,21 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.administrator.attendancesystem.Fragment_3">
+    android:background="@color/myBackgroud"
+    android:orientation="vertical">
+    <include layout="@layout/top"></include>
 
     <!-- TODO: Update blank fragment layout-->
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="this is third fragment" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="this is third fragment" />
+        android:text="暂无考勤" />-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="this is third fragment" />
 </LinearLayout>

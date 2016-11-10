@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section1"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -14,6 +15,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section2"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -23,6 +25,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section3"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -32,6 +35,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section4"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -41,6 +45,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section5"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -50,6 +55,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section6"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -59,6 +65,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section7"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -68,6 +75,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section8"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -77,6 +85,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section9"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -86,6 +95,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section10"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -95,6 +105,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section11"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -104,6 +115,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section12"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"
@@ -113,6 +125,7 @@
         android:textSize="@dimen/linear_section_textsize"/>
 
     <TextView
+        android:textColor="@color/border_textColor"
         android:id="@+id/tv_section13"
         android:layout_weight="1"
         android:layout_width="@dimen/linear_section_textview_weight"

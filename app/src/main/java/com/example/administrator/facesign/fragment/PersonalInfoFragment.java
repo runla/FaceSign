@@ -8,13 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.entity.Student;
 import com.example.administrator.facesign.util.ImageUtil;
 import com.example.administrator.facesign.util.MySharedPreference;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,9 +26,11 @@ public class PersonalInfoFragment extends Fragment {
     private TextView tv_name;
     private TextView tv_schools;
     private TextView tv_grade;
+    private TextView tv_title;
 
     //个人头像
-    private ImageView img_head;
+  // private ImageView img_head;
+    private RoundedImageView img_head;
     private Student student;
 
     public PersonalInfoFragment() {
@@ -63,8 +65,9 @@ public class PersonalInfoFragment extends Fragment {
         tv_grade = (TextView) view.findViewById(R.id.tv_personal_grade);
 
         tv_schools = (TextView) view.findViewById(R.id.tv_personal_schools);
+        tv_title = (TextView) view.findViewById(R.id.tv_title);
 
-        img_head = (ImageView) view.findViewById(R.id.img_username_head);
+        img_head = (RoundedImageView) view.findViewById(R.id.img_username_head);
     }
 
     private void InitTextView(){
@@ -74,6 +77,8 @@ public class PersonalInfoFragment extends Fragment {
         tv_schools.setText(student.getSchools());
         tv_major.setText(student.getMajor());
         tv_grade.setText(student.getGrade());
+
+        tv_title.setText("个人信息");
         byte[] array = ImageUtil.imageProcessing(ImageUtil.getPersonalImagePath(student.getStudentid()));
         Bitmap bitmap_head = BitmapFactory.decodeByteArray(array,0,array.length);
         img_head.setImageBitmap(bitmap_head);

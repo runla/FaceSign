@@ -21,6 +21,7 @@ public class ActivityCourseSign extends BaseActivity implements View.OnClickList
     private TextView tv_teacher;
     private TextView tv_section;
     private TextView tv_week;
+    private TextView tv_title;
 
 
     @Override
@@ -44,9 +45,12 @@ public class ActivityCourseSign extends BaseActivity implements View.OnClickList
         tv_section = (TextView) findViewById(R.id.tv_course_sign_section);
         tv_teacher= (TextView) findViewById(R.id.tv_course_sign_teacher);
         tv_week = (TextView) findViewById(R.id.tv_course_sign_weeks);
+        tv_title = (TextView) findViewById(R.id.tv_title);
 
         btn_back.setOnClickListener(this);
         btn_sign.setOnClickListener(this);
+
+        tv_title.setText("课程信息");
     }
     private void InitTextView(){
         tv_courseName.setText(course.getCourseName());

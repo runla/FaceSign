@@ -7,4 +7,14 @@
     <!-- main activity -->
     <color name="colorTextViewNormal">#7F7F7F</color>
     <color name="colorTextViewPress">#1B940A</color>
+
+    <color name="backgroud_Ailysilen">#DDF0ED</color>
+
+    <color name="text_color">#ffffff</color>
+
+    <color name="myBackgroud">#7AADF0</color>
+    <color name="backgroud_line_top">#4D8FE9</color>
+    <color name="backgroud_line_buttom">#4D8FE9</color>
+
+    <color name="border_textColor">#17484C</color>
 </resources>
