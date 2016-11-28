@@ -13,8 +13,9 @@
     <style name="tv_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/secondary_text</item>
         <item name="android:textSize">@dimen/personal_info_activity_textsize</item>
-        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingTop">@dimen/md_normal_text</item>
     </style>
 
     <!-- activity course sign textView -->
@@ -39,5 +40,23 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- 显示固定第几节的样式 -->
+    <style name="linear_section_style">
+        <item name="android:layout_width">@dimen/linear_section_textview_width</item>
+        <item name="android:layout_height">@dimen/linear_section_textview_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/linear_section_textsize</item>
+        <item name="android:gravity">center</item>
+    </style>
 
+    <style name="TayLayoutItemStyle">
+
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/linear_day_textsize</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

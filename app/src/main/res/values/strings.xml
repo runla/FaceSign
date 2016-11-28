@@ -14,9 +14,9 @@
 
 
     <!-- main activity -->
-    <string name="find_text">发现</string>
-    <string name="me_text">我</string>
-    <string name="wechat_text">微信</string>
+    <string name="find_text">课程</string>
+    <string name="me_text">考勤</string>
+    <string name="wechat_text">个人</string>
     <string name="title_name">微信</string>
 
 

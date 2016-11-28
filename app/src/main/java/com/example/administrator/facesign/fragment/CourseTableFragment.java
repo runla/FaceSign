@@ -2,33 +2,31 @@ package com.example.administrator.facesign.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.administrator.facesign.R;
+import com.example.administrator.facesign.activity.MainActivity1;
 import com.example.administrator.facesign.activity.ShowActivity;
-import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
+import com.example.administrator.facesign.entity.MyLocation;
 import com.example.administrator.facesign.entity.Student;
-import com.example.administrator.facesign.util.MySharedPreference;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -54,15 +52,25 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
     private View view;
 
+    private Toolbar toolbar;
+
     private CourseInfo courseInfo;
 
     private Student student;
+
+    private MyLocation myLocation;
     private List<Course> courseList = new ArrayList<>();
 
-    private Spinner spinner;
 
+    private TextView show_Loaction;
+
+    /**
+     * 最后一个button 的id
+     */
+    private int lastButtonId=0;
+
+    private boolean isCall = false;
     public CourseTableFragment() {
-        // Required empty public constructor
 
     }
 
@@ -70,21 +78,30 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.activity_course_table, container, false);
+        if (getArguments() !=null&&courseInfo==null) {
+            courseInfo = (CourseInfo) getArguments().getSerializable("courseInfo");
+            myLocation = getArguments().getParcelable("myLocation");
+        }
+        if (savedInstanceState != null&&myLocation==null) {
+            myLocation = savedInstanceState.getParcelable("myLocation");
+       //     lastButtonId = savedInstanceState.getInt("lastButtonId");
+        }
 
-        //提取共享数据
-        //courseInfo = (CourseInfo)getActivity().getApplication();
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        courseList = courseInfo.getCourseList();
+        student = courseInfo.getStudent();
+        view = inflater.inflate(R.layout.activity_course_table1, container, false);
 
-        String studentId = preferences.getString("studentId","");
-        courseList = CourseDB.getInstance(getActivity()).loadCourseList(studentId);
-        student = MySharedPreference.loadStudent(getActivity());
-        //student = courseInfo.getStudent();
-        //courseList = courseInfo.getCourseList();
 
+        Log.d(TAG, "onCreateView: ");
         InitView();
-        // Inflate the layout for this fragment
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+
     }
 
     //初始化View
@@ -100,8 +117,11 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
         textView_day = (TextView)view.findViewById(R.id.tv_day1);
         textView_section = (TextView)view.findViewById(R.id.tv_section1);
-        spinner = (Spinner) view.findViewById(R.id.spinner1);
-        initSpinner();
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+
+        show_Loaction = (TextView) view.findViewById(R.id.show_location);
+        show_Loaction.setText(myLocation.getLocationdescribe());
+
         //获取控件的宽度和高度
         //Handler hander = new Handler();
         textView_section.post(new Runnable() {
@@ -114,49 +134,26 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
                 AddCourse();
             }
         });
-    }
-    private void initSpinner(){
-        List<String> list = new ArrayList<String>();
-        for (int i = 1; i <= 25; i++) {
-            list.add("第"+i+"周");
-        }
 
-        //SpinnerAdapter adapter = new SpinnerAdapter(list,getActivity());
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,list);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        MainActivity1 parentActivity = (MainActivity1 ) getActivity();
+        parentActivity.setDataCallBack(new MainActivity1.DataCallBack() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,int pos, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onDataChange(MyLocation myLocation) {
+                show_Loaction.setText(myLocation.getLocationdescribe());
             }
         });
     }
-//设置spinner下拉框的高度
-    public void setDropDownHeight(int pHeight) {
-        try {
-            Field popup = Spinner.class.getDeclaredField("mPopup");
-            popup.setAccessible(true);
-            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
 
-            // Set popupWindow height to 500px
-            popupWindow.setHeight(pHeight);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+    @Override
+    public void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+     //   toolbar.setTitle("课程表");
     }
+
     /*
-    * 动态添加课程
-     */
+        * 动态添加课程
+         */
     void AddCourse(){
 
         //在同一个线性布局中上一个课程的最后一节课
@@ -179,15 +176,16 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         dayCoursenum[5] = 0;
         dayCoursenum[6] = 0;
 
-       // Button course_btn[][] = new Button[7][7];
+        // Button course_btn[][] = new Button[7][7];
 
         Course[] c = new Course[courseList.size()];
-       // Course[] c = (Course[]) courseList.toArray();
+        // Course[] c = (Course[]) courseList.toArray();
         int count=0;
         for (Course course : courseList) {
             c[count++] = course;
         }
 
+        //课程排序
         for (int k = 0; k < count-1; k++) {
             for (int j = k+1; j < count; j++) {
                 if (c[k].getStartSection()>c[j].getStartSection()){
@@ -199,18 +197,15 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         }
         courseList = Arrays.asList(c);
 
-
-        //Log.d(TAG,"AddCourse========="+courseInfo.getStudent().getName());
         int i = 0;
         for (Course course : courseList) {
-             //这里先设置了宽高
+            //这里先设置了宽高
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,courseUnitHeight*course.getTotalSection());
             //params.setMargins(0,(course.getStartSection()-1)*courseUnitHeight,0,0);
             params.setMargins(0,courseUnitHeight*(course.getStartSection()-lastClassPos[course.getDay()-1]-1),0,0);
             Button button = new Button(getActivity());
 
-            button.setBackgroundResource(R.drawable.backgroud_course_btn);
-            button.setTextColor(getResources().getColor(R.color.text_color));
+            button.setTextColor(ContextCompat.getColor(getActivity(),R.color.text_color));
 
             button.setLayoutParams(params);
             //设置按钮的资源id
@@ -230,24 +225,18 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
             button.setOnClickListener(CourseTableFragment.this);
             //添加至布局之中
             linear_course[course.getDay()-1].addView(button);
-
             i++;
+            lastButtonId++;
+            Log.d(TAG, "AddCourse: "+course.getCourseName()+" lastButtonId = "+lastButtonId);
+
         }
-
-     }
-
+    }
 
     @Override
     public void onClick(View view) {
         int i = courseList.size()-1;
         while(i >=0){
             if (view.getId()==baseId+i) {
-                /*Bundle bundle = new Bundle();
-                bundle.putSerializable("course",courseList.get(i));
-                Intent intent = new Intent(getActivity(),ActivityCourseSign.class);
-                intent.putExtras(bundle);
-                startActivity(intent);*/
-               // Toast.makeText(getActivity(), "button1", Toast.LENGTH_SHORT).show();
                 showCourseInfoDiaglog(courseList.get(i));
                 break;
             }
@@ -258,7 +247,7 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
     private void showCourseInfoDiaglog(final Course course){
         List<String> list = new ArrayList<String>();
-       // list.add(course.getCourseName());
+        // list.add(course.getCourseName());
         list.add("教室  "+course.getRoom());
         list.add("教师  "+course.getTeacherName()+"/"+course.getTeacherId());
         list.add("节数  "+course.getStartSection()+"-"+(course.getTotalSection()+course.getStartSection()-1)+"节");
@@ -275,7 +264,7 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         list.add("周数  "+course.getStartWeek()+"-"+(course.getTotalWeeks()+course.getStartWeek()-1)+"周"+week);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,list);
 
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
         builder.setTitle(course.getCourseName());
         builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
             @Override
@@ -290,6 +279,8 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
                 dialogInterface.dismiss();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("course",course);
+                bundle.putSerializable("student",student);
+                bundle.putParcelable("myLocation",myLocation);
                 Intent intent = new Intent(getActivity(),ShowActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -298,4 +289,15 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         builder.show();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("myLocation",myLocation);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isCall = false;
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.administrator.facesign.entity;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
 	//学生姓名
 	private String name;
 	//学号

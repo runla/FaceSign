@@ -1,87 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/linear_day_height">
+    android:divider="@drawable/divider"
+    android:showDividers="end"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_day1"
-        android:layout_width="@dimen/linear_day_textview_height"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="@dimen/linear_day_textsize"
-        android:text="9月"/>
-
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_day2"
-        android:layout_weight="1"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="@dimen/linear_day_textsize"
-        android:text="星期一"/>
+        android:divider="@drawable/divider"
+        android:showDividers="middle"
+        android:layout_height="@dimen/linear_day_height">
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_day3"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="@dimen/linear_day_textsize"
-        android:text="星期二"/>
+        <TextView
+            android:textColor="@color/border_textColor"
+            android:id="@+id/tv_day1"
+            android:layout_width="@dimen/linear_day_textview_height"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="@dimen/linear_day_textsize"
+            android:text="9月"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_day4"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="@dimen/linear_day_textsize"
-        android:text="星期三"/>
+        <TextView
+            style="@style/TayLayoutItemStyle"
+            android:id="@+id/tv_day2"
+            android:text="星期一"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_day5"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="@dimen/linear_day_textsize"
-        android:text="星期四"/>
+        <TextView
+            style="@style/TayLayoutItemStyle"
+            android:id="@+id/tv_day3"
+            android:text="星期二"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_day6"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="@dimen/linear_day_textsize"
-        android:text="星期五"/>
+        <TextView
+            style="@style/TayLayoutItemStyle"
+            android:id="@+id/tv_day4"
+            android:text="星期三"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_day7"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="@dimen/linear_day_textsize"
-        android:text="星期六"/>
+        <TextView
+            style="@style/TayLayoutItemStyle"
+            android:id="@+id/tv_day5"
+            android:text="星期四"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_day8"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="@dimen/linear_day_textsize"
-        android:text="星期日"/>
+        <TextView
+            style="@style/TayLayoutItemStyle"
+            android:id="@+id/tv_day6"
+            android:text="星期五"/>
+
+        <TextView
+            style="@style/TayLayoutItemStyle"
+            android:id="@+id/tv_day7"
+            android:text="星期六"/>
+
+        <TextView
+            style="@style/TayLayoutItemStyle"
+            android:id="@+id/tv_day8"
+            android:text="星期日"/>
+
+    </LinearLayout>
 </LinearLayout>

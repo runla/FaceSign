@@ -1,136 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout android:orientation="horizontal"
+    android:divider="@drawable/divider"
+    android:showDividers="end"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section1"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="1"
-        android:textSize="@dimen/linear_section_textsize"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section2"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="2"
-        android:textSize="@dimen/linear_section_textsize"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:divider="@drawable/divider"
+        android:showDividers="middle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section3"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="3"
-        android:textSize="@dimen/linear_section_textsize"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section4"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="4"
-        android:textSize="@dimen/linear_section_textsize"/>
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section1"
+            android:text="1"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section5"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="5"
-        android:textSize="@dimen/linear_section_textsize"/>
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section2"
+            android:text="2"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section6"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="6"
-        android:textSize="@dimen/linear_section_textsize"/>
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section3"
+            android:text="3"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section7"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="7"
-        android:textSize="@dimen/linear_section_textsize"/>
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section4"
+            android:text="4"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section8"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="8"
-        android:textSize="@dimen/linear_section_textsize"/>
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section5"
+            android:text="5"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section9"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="9"
-        android:textSize="@dimen/linear_section_textsize"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section10"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="10"
-        android:textSize="@dimen/linear_section_textsize"/>
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section6"
+            android:text="6"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section11"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="11"
-        android:textSize="@dimen/linear_section_textsize"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section12"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="12"
-        android:textSize="@dimen/linear_section_textsize"/>
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section7"
+            android:text="7"/>
 
-    <TextView
-        android:textColor="@color/border_textColor"
-        android:id="@+id/tv_section13"
-        android:layout_weight="1"
-        android:layout_width="@dimen/linear_section_textview_weight"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="13"
-        android:textSize="@dimen/linear_section_textsize"/>
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section8"
+            android:text="8"/>
+
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section9"
+            android:text="9"/>
+
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section10"
+            android:text="10"/>
+
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section11"
+            android:text="11" />
+
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section12"
+            android:text="12"/>
+
+        <TextView
+            style="@style/linear_section_style"
+            android:id="@+id/tv_section13"
+            android:text="13"/>
+        <TextView
+            android:background="@drawable/divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp" />
+    </LinearLayout>
 </LinearLayout>

@@ -4,6 +4,6 @@ package com.example.administrator.facesign.util;
  * Created by Administrator on 2016/11/9.
  */
 public interface FaceRecognitionCallbackListener {
-    void recognitionSuccess(int result);
-    void recognitionFail(int result);
+    void recognitionSuccess(Double similar);
+   // void recognitionFail(int result);
 }

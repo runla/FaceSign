@@ -21,7 +21,7 @@
         android:layout_marginRight="14dp"
         android:layout_toLeftOf="@+id/img_username_head"
         android:paddingTop="40dp"
-        android:textSize="14sp"
+        android:textSize="@dimen/md_title_text"
         android:paddingBottom="15dp"
         android:text="未登录"
         android:textColor="@android:color/white" />

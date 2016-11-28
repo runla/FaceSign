@@ -21,4 +21,25 @@
     <dimen name="linear_section_textsize">10dp</dimen>
     <dimen name="linear_section_textview_weight">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="linear_section_textview_width">16dp</dimen>
+    <dimen name="linear_section_textview_height">60dp</dimen>>
+
+
+    <!--
+常用字号：
+12sp 小字提示
+14sp（桌面端13sp） 正文/按钮文字
+16sp（桌面端15sp） 小标题
+20sp Appbar文字
+24sp 大标题
+34sp/45sp/56sp/112sp 超大号文字
+长篇幅正文，每行建议60字符（英文）左右。短文本，建议每行30字符（英文）左右。
+-->
+
+    <dimen name="md_tip_text">12sp</dimen>
+    <dimen name="md_normal_text">14sp</dimen>
+    <dimen name="md_subtitle_text">16sp</dimen>
+    <dimen name="md_title_text">20sp</dimen>
+    <dimen name="md_appbar_text">24sp</dimen>
+    <dimen name="md_large_title_text">34sp</dimen>
 </resources>

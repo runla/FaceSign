@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.media.FaceDetector;
+import android.util.Log;
 
 import com.facepp.error.FaceppParseException;
 import com.facepp.http.HttpRequests;
@@ -73,30 +74,28 @@ public class FaceDetectionUtil {
     public static void findFace(String filePath,FindFaceCallbackListener listener){
         BitmapFactory.Options bitmapOption = new BitmapFactory.Options();
         bitmapOption.inPreferredConfig = Bitmap.Config.RGB_565;
-        byte[] array = ImageUtil.imageProcessing(filePath);//对图片进行压缩
+        //对图片进行前期处理
+        byte[] array = ImageUtil.imageProcessing(filePath);
         //获取图片资源
         Bitmap bitmap = BitmapFactory.decodeByteArray(array,0,array.length,bitmapOption);
-
         //假设最多有5张脸
         int numOfFaces = 5;
         FaceDetector mFaceDetector = new FaceDetector(bitmap.getWidth(),bitmap.getHeight(),numOfFaces);
         FaceDetector.Face[] mFace = new FaceDetector.Face[numOfFaces];
-
         //实际上有几张脸
         numOfFaces = mFaceDetector.findFaces(bitmap, mFace);
-
-
         listener.listenFaceNum(numOfFaces);
         listener.getBitmap(bitmap);
     }
+
     //包含回调函数
     public static void findFaceAndDrwIt(String filePath,FindFaceCallbackListener listener){
         BitmapFactory.Options bitmapOption = new BitmapFactory.Options();
         bitmapOption.inPreferredConfig = Bitmap.Config.RGB_565;
-        byte[] array = ImageUtil.imageProcessing(filePath);//对图片进行压缩
+        //对图片进行大小和质量处理
+        byte[] array = ImageUtil.imageProcessing(filePath);
         //获取图片资源
         Bitmap bitmap = BitmapFactory.decodeByteArray(array,0,array.length,bitmapOption).copy(Bitmap.Config.RGB_565, true);
-
         //假设最多有5张脸
         int numOfFaces = 5;
         FaceDetector mFaceDetector = new FaceDetector(bitmap.getWidth(),bitmap.getHeight(),numOfFaces);
@@ -133,9 +132,6 @@ public class FaceDetectionUtil {
         listener.getBitmap(bitmap);
     }
 
-
-
-
     /**
      * 使用face++接口进行人脸识别
      * @param firstPath
@@ -146,22 +142,18 @@ public class FaceDetectionUtil {
 
         //初始化
         HttpRequests httpRequests = new HttpRequests("14494aa3e3b1587c99d260a779c300b0","Rdgg9mNFpBDuXN3A9cZ_BItSjst0raLd",true, true);
-
         try {
             //获取第一张图片的信息
             byte[] array1 = ImageUtil.imageProcessing(firstPath);
             JSONObject result1 = httpRequests.detectionDetect(new PostParameters().setImg(array1));
             String face1 = result1.getJSONArray("face").getJSONObject(0).getString("face_id");
-
             //获取第二张图片的信息
             byte[] array2 = ImageUtil.imageProcessing(secondPath);
             JSONObject result2 = httpRequests.detectionDetect(new PostParameters().setImg(array2));
             String face2 = result2.getJSONArray("face").getJSONObject(0).getString("face_id");
-
             //对比两张人脸的相似程度
             JSONObject Compare = httpRequests.recognitionCompare(new PostParameters().setFaceId1(face1).setFaceId2(face2));
             final Double smilar = Double.valueOf(Compare.getString("similarity"));
-
             return smilar;
 
         } catch (NumberFormatException e) {
@@ -177,29 +169,18 @@ public class FaceDetectionUtil {
         return -1.1;
     }
 
-    //识别失败
-    public static final int RECOGNITION_FAIL = -1;
-    //识别成功，正常签到
-    public static final int RECOGNITION_SUCCESS = 1;
-    //识别成功，迟到
-    public static final int RECOGNITION_LATE = 2;
-    //识别成功，旷课
-    public static final int RECOGNITION_ABSENT = 3;
+static final int RECOGNITION_ABSENT = 3;
 
     public static void faceRecognitionStart(final String firstPath, final String secondPath, final FaceRecognitionCallbackListener listener){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Double simail = facePlusPlusRecognitionCompare(firstPath,secondPath);
-                if (simail > 60.0){
-                    listener.recognitionSuccess(RECOGNITION_SUCCESS);
-                    listener.recognitionFail(0);
-                }
-                else{
-                    listener.recognitionSuccess(0);
-                    listener.recognitionFail(RECOGNITION_FAIL);
-                }
+                Double similar = facePlusPlusRecognitionCompare(firstPath,secondPath);
+                Log.d("BaseActivity",similar+"");
+                listener.recognitionSuccess(similar);
+
             }
         }).start();
     }
+
 }

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/md_green_300"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 现实位置 -->
+    <TextView
+        android:id="@+id/show_location"
+        android:gravity="center"
+        android:text="定位中..."
+        android:textSize="@dimen/md_tip_text"
+        android:textColor="@color/colorPrimary"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!-- 顶端显示周数-->
+    <!-- 顶端显示星期几-->
+    <include layout="@layout/linear_day"></include>
+
+
+
+    <ScrollView
+
+        android:divider="@drawable/divider"
+        android:showDividers="middle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <!-- 中间显示课程-->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+            <include layout="@layout/linear_section"></include>
+
+            <include layout="@layout/linear_day_course" android:id="@+id/course_monday_id"></include>
+            <include layout="@layout/linear_day_course" android:id="@+id/course_tuesday_id"></include>
+            <include layout="@layout/linear_day_course" android:id="@+id/course_wednesday_id"></include>
+            <include layout="@layout/linear_day_course" android:id="@+id/course_thursday_id"></include>
+            <include layout="@layout/linear_day_course" android:id="@+id/course_firday_id"></include>
+            <include layout="@layout/linear_day_course" android:id="@+id/course_saturday_id"></include>
+            <include layout="@layout/linear_day_course" android:id="@+id/course_sunday_id"></include>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

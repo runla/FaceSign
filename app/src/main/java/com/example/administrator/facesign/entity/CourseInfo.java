@@ -42,7 +42,7 @@ public class CourseInfo extends Application implements Serializable {
 	public void setCourseList(List<Course> courseList) {
 		this.courseList = courseList;
 	}
-	
-	
-	
+
+
+
 }

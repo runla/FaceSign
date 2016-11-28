@@ -12,9 +12,62 @@
 
     <color name="text_color">#ffffff</color>
 
-    <color name="myBackgroud">#7AADF0</color>
+    <color name="myBackgroud">#81C784</color>
     <color name="backgroud_line_top">#4D8FE9</color>
     <color name="backgroud_line_buttom">#4D8FE9</color>
 
     <color name="border_textColor">#17484C</color>
+
+    <color name="firstColor">#00BCD4</color>
+    <color name="secondColor">#E91E63</color>
+    <color name="thirdColor">#FF5722</color>
+    <color name="fourthColor">#4CAF50</color>
+
+    <color name="md_green_100">#C8E6C9</color>
+    <color name="md_green_200">#A5D6A7</color>
+    <color name="md_green_300">#81C784</color>
+    <color name="md_green_400">#66BB6A</color>
+    <color name="md_green_500">#4CAF50</color>
+    <color name="md_green_600">#43A047</color>
+    <color name="md_green_700">#388E3C</color>
+    <color name="md_green_800">#2E7D32</color>
+
+    <color name="md_light_green_100">#DCEDC8</color>
+    <color name="md_light_green_200">#C5E1A5</color>
+    <color name="md_light_green_300">#AED581</color>
+    <color name="md_light_green_400">#9CCC65</color>
+    <color name="md_light_green_500">#8BC34A</color>
+    <color name="md_light_green_600">#7CB342</color>
+    <color name="md_light_green_700">#689F38</color>
+    <color name="md_light_green_800">#558B2F</color>
+
+    <color name="md_lime_100">#F0F4C3</color>
+    <color name="md_lime_200">#E6EE9C</color>
+    <color name="md_lime_300">#DCE775</color>
+    <color name="md_lime_400">#D4E157</color>
+    <color name="md_lime_500">#CDDC39</color>
+    <color name="md_lime_600">#C0CA33</color>
+    <color name="md_lime_700">#AFB42B</color>
+    <color name="md_lime_800">#9E9D24</color>
+
+
+    <color name="primary_text">#DD000000</color>
+    <color name="secondary_text">#89000000</color>
+    <color name="disable_text">#43000000</color>
+
+    <!-- 文字配色  后面的数字是透明度-->
+    <!--
+    黑色：[87% 普通文字] [54% 减淡文字] [26% 禁用状态/提示文字] [12% 分隔线]
+    白色：[100% 普通文字] [70% 减淡文字] [30% 禁用状态/提示文字] [12% 分隔线]
+    -->
+    <color name="md_black_100">#000000</color>
+    <color name="md_black_87">#DD000000</color>
+    <color name="md_black_54">#89000000</color>
+    <color name="md_black_26">#43000000</color>
+    <color name="md_black_12">#1D000000</color>
+
+    <color name="md_white_100">#FFFFFF</color>
+    <color name="md_white_70">#b2FFFFFF</color>
+    <color name="md_white_30">#4CFFFFFF</color>
+    <color name="md_white_12">#1DFFFFFF</color>
 </resources>

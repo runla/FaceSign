@@ -22,12 +22,20 @@ import java.io.IOException;
  */
 public class ImageUtil {
 
+    /**
+     * 保存图片到sd卡中，文件名为学号
+     *
+     * @param context
+     * @param mybitmap
+     * @param studentid
+     * @return
+     */
     public static boolean saveBitmap(Context context,Bitmap mybitmap,String studentid) {
         Log.d(BaseActivity.TAG,"saveBitmap");
         boolean result = false;
         String urlPath = getPersonalImagePath(studentid);
         File file = new File(urlPath);
-  //      if (!file.exists()) {
+        if (!file.exists()) {
             Log.d(BaseActivity.TAG,"file is no exist");
             try {
                 // 判断SD卡是否存在，并且是否具有读写权限
@@ -44,7 +52,7 @@ public class ImageUtil {
                     context.sendBroadcast(intent);
                     result = true;
                 } else {
-//                    Toast.makeText(MainActivity.this, "不能读取到SD卡", Toast.LENGTH_SHORT).show();
+                    Log.d("BaseActivity","不能读取到SD卡");
                     result = false;
                 }
             } catch (FileNotFoundException e) {
@@ -52,12 +60,23 @@ public class ImageUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-      //  }
+        }
         return false;
     }
 
     /**
-     * 个人图片保存路径
+     * 判断图片是否已经存在本地
+     *
+     */
+    public static boolean isBitmapExist(String path){
+        File file = new File(path);
+        if (file.exists()) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 个人图片保存路径，文件名为学号
      * @param studentid
      * @return
      */
@@ -66,6 +85,7 @@ public class ImageUtil {
         path += studentid+".jpg";
         return path;
     }
+
     /**
      * 获取拍照后图片保存的路径
      * @return

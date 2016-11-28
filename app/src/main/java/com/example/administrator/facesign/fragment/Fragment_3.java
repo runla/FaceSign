@@ -3,10 +3,10 @@ package com.example.administrator.facesign.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.administrator.facesign.R;
 
@@ -16,8 +16,9 @@ import com.example.administrator.facesign.R;
  */
 public class Fragment_3 extends Fragment {
 
-    private TextView tv_title;
+ //   private TextView tv_title;
 
+    private Toolbar toolbar;
     private View view;
     public Fragment_3() {
         // Required empty public constructor
@@ -34,8 +35,15 @@ public class Fragment_3 extends Fragment {
     }
 
     private void initView(){
-        tv_title = (TextView) view.findViewById(R.id.tv_title);
-        tv_title.setText("考勤");
+        //toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+      //  toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+       /* tv_title = (TextView) view.findViewById(tv_title);
+        tv_title.setText("考勤");*/
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 }

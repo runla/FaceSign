@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+
+    <!-- toolbar -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@color/primary_text"
+        app:layout_scrollFlags="scroll|enterAlways"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    </android.support.v7.widget.Toolbar>
+
+
+    <!--可滑动的布局内容  ViewPage-->
+    <android.support.v4.view.ViewPager
+        android:layout_weight="1"
+        android:id="@+id/vp_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <com.luseen.luseenbottomnavigation.BottomNavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        app:bnv_shadow="true"
+        app:bnv_tablet="false"
+        app:bnv_viewpager_slide="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/disable_text"
+        app:bnv_colored_background="true"
+        app:bnv_with_text="false"
+        app:bnv_active_color="@color/colorPrimary"
+        android:layout_alignParentBottom="true" />
+
+</LinearLayout>

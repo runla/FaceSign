@@ -2,11 +2,10 @@ package com.example.administrator.facesign.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -17,16 +16,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.administrator.facesign.R;
-import com.example.administrator.facesign.db.CourseDB;
-import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
-import com.example.administrator.facesign.util.HttpCallbackListener;
-import com.example.administrator.facesign.util.HttpUtil;
-import com.example.administrator.facesign.util.ImageUtil;
-import com.example.administrator.facesign.util.MySharedPreference;
 import com.example.administrator.facesign.util.UrlUtil;
 import com.example.administrator.facesign.util.Utility;
+import com.example.administrator.facesign.vollery.AppController;
 
 import java.util.ArrayList;
 
@@ -105,14 +103,10 @@ public class LoginActivity extends BaseActivity {
             password = passwordEdit.getText().toString().trim();
             savePasswor();
 
-
             //原型进度条
             bar_loading.setVisibility(View.VISIBLE);
-
-            //MyTask task = new MyTask();
-            //task.execute("http://192.168.253.1:8080/webtest/loginaction",userNameEdit.getText().toString(),passwordEdit.getText().toString());
-            String urlPath = UrlUtil.getLoginUrl(username,password);
-            queryFromServer(urlPath);
+            //检查登录账号
+            checkLogin();
         }
         else
         {
@@ -133,95 +127,18 @@ public class LoginActivity extends BaseActivity {
     //初始化账号自动补全中的字符串
     private void InitUserNameEdit(){
         strList = new ArrayList<String>();
-
         strList.add(username);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,strList);
         userNameEdit.setAdapter(adapter);
     }
 
-    public void queryFromServer(String urlPath){
-        HttpUtil.getHttpToString(urlPath, new HttpCallbackListener() {
-            @Override
-            public void onFinishStr(String response) {
-                if (!TextUtils.isEmpty(response) && !response.equals("password id error")) {
-                    //获取个人图片
-                  //  File file = new File(ImageUtil.getPersonalImagePath(username));
-                  //  if (!file.exists()) {
-                        String urlPath = UrlUtil.getDownloadImageUrl(username);
-                        //获取网上图片
-                        queryPersonalImageFromServer(urlPath);
-                   // }
-                    //处理个人数据
-                    courseInfo = Utility.handleCourseInfo(response);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            updateUIThread(courseInfo);
-                        }
-                    });
-                }
-                else{
-                    Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFinishTypeArray(byte[] response) {
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        loginBtn.setEnabled(true);
-                        bar_loading.setVisibility(View.INVISIBLE);
-                        userNameEdit.setEnabled(true);
-                        passwordEdit.setEnabled(true);
-                        Toast.makeText(LoginActivity.this, "网络连接错误", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            });
-    }
-
-    public void queryPersonalImageFromServer(String urlPath){
-        HttpUtil.getHttpToByteArray(urlPath, new HttpCallbackListener() {
-            @Override
-            public void onFinishStr(String response) {
-
-            }
-
-            @Override
-            public void onFinishTypeArray(byte[] response) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(response,0,response.length);
-                ImageUtil.saveBitmap(LoginActivity.this,bitmap,username);
-            }
-
-            @Override
-            public void onError(Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
     private void updateUIThread(CourseInfo courseInfo){
 
         //保存到本地数据库的操作
         if (courseInfo != null) {
-            String studentId = courseInfo.getStudent().getStudentid();
-            for (Course course : courseInfo.getCourseList()) {
-                String courseId = course.getCourseId();
-                //判断该课程是否已经在本地数据库中
-                if (!CourseDB.getInstance(LoginActivity.this).isExistCourseList(studentId,courseId)){
-                    CourseDB.getInstance(LoginActivity.this).saveCourse(course,studentId);
-                }
-            }
-            MySharedPreference.saveStudent(LoginActivity.this,courseInfo.getStudent());
-
             //跳转到主界面
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this,MainActivity1.class);
+            intent.putExtra("courseInfo",courseInfo);
             startActivity(intent);
             Toast.makeText(LoginActivity.this, "欢迎你 "+courseInfo.getStudent().getName()+"!", Toast.LENGTH_SHORT).show();
         }
@@ -230,105 +147,48 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    private void checkLogin(){
+        String urlPath = UrlUtil.getLoginUrl(username,password);
+        StringRequest stringRequest = new StringRequest(urlPath,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        loginBtn.setEnabled(true);
+                        bar_loading.setVisibility(View.INVISIBLE);
+                        userNameEdit.setEnabled(true);
+                        passwordEdit.setEnabled(true);
+                        if (!TextUtils.isEmpty(response) && !response.equals("登录失败")) {
+                            //处理个人数据
+                            courseInfo = Utility.handleCourseInfo(response);
+                            updateUIThread(courseInfo);
+                        }
+                        else{
+                            Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loginBtn.setEnabled(true);
+                bar_loading.setVisibility(View.INVISIBLE);
+                userNameEdit.setEnabled(true);
+                passwordEdit.setEnabled(true);
+                Toast.makeText(LoginActivity.this, "网络连接有误", Toast.LENGTH_SHORT).show();
+
+                Log.e(TAG, error.getMessage(), error);
+            }
+        });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         ActivityCollector.removeActivity(this);
     }
 
-/*
-    public class MyTask extends AsyncTask<String ,Integer,String>{
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            Log.i(TAG, "doInBackground(Params... params) called");
-            try {
-                URL url = new URL(params[0]);
-                String name = params[1];
-                String password = params[2];
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-                //post方式不能设置缓存，需手动设置为false
-                connection.setUseCaches(false);
-
-                //我们请求的数据
-                String data = "password="+ URLEncoder.encode(password,"UTF-8")+
-                        "&username="+URLEncoder.encode(name,"UTF-8");
-
-                //connection.setRequestProperty("contentType", "GBK");
-                connection.setRequestProperty("Accept-Encoding", "identity");
-                connection.setConnectTimeout(8000);
-                connection.setReadTimeout(8000);
-                // connection.getContentLengthLong();
-                //獲取輸出流
-                OutputStream out = connection.getOutputStream();
-                out.write(data.getBytes());
-                out.flush();
-                out.close();
-                Log.i(TAG, "responseCode = "+connection.getResponseCode());
-
-                if (connection.getResponseCode() == 200) {
-
-                    // 获取响应的输入流对象
-                    InputStream inputStream = connection.getInputStream();
-                    // 创建字节输出流对象
-                    ByteArrayOutputStream message = new ByteArrayOutputStream();
-                    // 定义读取的长度
-                    int len = -1;
-                    int count=0;
-                    // 定义缓冲区
-                    byte buffer[] = new byte[1024];
-
-                    long total = 102400;
-                    total = connection.getContentLength();
-                    Log.e(TAG, "total = "+total);
-                    // 按照缓冲区的大小，循环读取
-                    while ((len = inputStream.read(buffer)) != -1) {
-                        // 根据读取的长度写入到os对象中
-                        message.write(buffer, 0, len);
-                        count += len;
-                        //调用publishProgress公布进度,最后onProgressUpdate方法将被执行
-                        //publishProgress((int) ((count / (float) total) * 100));
-                        //为了演示进度,休眠500毫秒
-                        Thread.sleep(500);
-                    }
-                   // return new String(message.toByteArray(), "utf-8");
-                    return new String(message.toByteArray());
-                }
-
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... progresses) {
-            Log.i(TAG, "onProgressUpdate(Progress... progresses) called");
-        }
-
-        @Override
-        protected void onPostExecute(String resultStr) {
-            Log.d(TAG,resultStr);
-            if (!resultStr.equals("登录失败")){
-                Toast.makeText(LoginActivity.this, resultStr, Toast.LENGTH_SHORT).show();
-                updateUIThread(Utility.handleCourseInfo(resultStr));
-            }
-            else{
-                Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
-                loginBtn.setEnabled(true);
-                bar_loading.setVisibility(View.INVISIBLE);
-                userNameEdit.setEnabled(true);
-                passwordEdit.setEnabled(true);
-            }
-        }
-    }
-    */
 }
