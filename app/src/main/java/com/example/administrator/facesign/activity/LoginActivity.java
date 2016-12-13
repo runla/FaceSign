@@ -133,11 +133,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void updateUIThread(CourseInfo courseInfo){
-
         //保存到本地数据库的操作
         if (courseInfo != null) {
             //跳转到主界面
-            Intent intent = new Intent(LoginActivity.this,MainActivity1.class);
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             intent.putExtra("courseInfo",courseInfo);
             startActivity(intent);
             Toast.makeText(LoginActivity.this, "欢迎你 "+courseInfo.getStudent().getName()+"!", Toast.LENGTH_SHORT).show();
@@ -158,6 +157,7 @@ public class LoginActivity extends BaseActivity {
                         userNameEdit.setEnabled(true);
                         passwordEdit.setEnabled(true);
                         if (!TextUtils.isEmpty(response) && !response.equals("登录失败")) {
+                            Log.d(TAG,response);
                             //处理个人数据
                             courseInfo = Utility.handleCourseInfo(response);
                             updateUIThread(courseInfo);

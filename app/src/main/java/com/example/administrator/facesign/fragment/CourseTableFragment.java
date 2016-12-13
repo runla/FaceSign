@@ -1,11 +1,10 @@
 package com.example.administrator.facesign.fragment;
 
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,15 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.facesign.R;
-import com.example.administrator.facesign.activity.MainActivity1;
-import com.example.administrator.facesign.activity.ShowActivity;
+import com.example.administrator.facesign.activity.MainActivity;
+import com.example.administrator.facesign.activity.SignUpStatusActivity;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
 import com.example.administrator.facesign.entity.MyLocation;
 import com.example.administrator.facesign.entity.Student;
+import com.example.administrator.facesign.util.BackgroundStyle;
+import com.example.administrator.facesign.util.TimeUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -52,8 +53,6 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
     private View view;
 
-    private Toolbar toolbar;
-
     private CourseInfo courseInfo;
 
     private Student student;
@@ -61,9 +60,7 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
     private MyLocation myLocation;
     private List<Course> courseList = new ArrayList<>();
 
-
-    private TextView show_Loaction;
-
+    private TextView tv_month;
     /**
      * 最后一个button 的id
      */
@@ -106,6 +103,9 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
     //初始化View
     void InitView(){
+        tv_month = (TextView) view.findViewById(R.id.tv_day1);
+        String month = String.format("%tm月",new Date());
+        tv_month.setText(month);
         linear_course = new LinearLayout[7];
         linear_course[0] = (LinearLayout)view.findViewById(R.id.course_monday_id);
         linear_course[1] = (LinearLayout)view.findViewById(R.id.course_tuesday_id);
@@ -117,10 +117,9 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
         textView_day = (TextView)view.findViewById(R.id.tv_day1);
         textView_section = (TextView)view.findViewById(R.id.tv_section1);
-        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
 
-        show_Loaction = (TextView) view.findViewById(R.id.show_location);
-        show_Loaction.setText(myLocation.getLocationdescribe());
+       /* show_Loaction = (TextView) view.findViewById(R.id.show_location);
+        show_Loaction.setText(myLocation.getLocationdescribe());*/
 
         //获取控件的宽度和高度
         //Handler hander = new Handler();
@@ -135,11 +134,11 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
             }
         });
 
-        MainActivity1 parentActivity = (MainActivity1 ) getActivity();
-        parentActivity.setDataCallBack(new MainActivity1.DataCallBack() {
+        MainActivity parentActivity = (MainActivity ) getActivity();
+        parentActivity.setDataCallBack(new MainActivity.DataCallBack() {
             @Override
             public void onDataChange(MyLocation myLocation) {
-                show_Loaction.setText(myLocation.getLocationdescribe());
+                CourseTableFragment.this.myLocation = myLocation;
             }
         });
     }
@@ -148,12 +147,11 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
     public void onResume() {
         Log.d(TAG, "onResume: ");
         super.onResume();
-     //   toolbar.setTitle("课程表");
     }
 
     /*
-        * 动态添加课程
-         */
+    * 动态添加课程
+     */
     void AddCourse(){
 
         //在同一个线性布局中上一个课程的最后一节课
@@ -176,26 +174,8 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
         dayCoursenum[5] = 0;
         dayCoursenum[6] = 0;
 
-        // Button course_btn[][] = new Button[7][7];
-
-        Course[] c = new Course[courseList.size()];
-        // Course[] c = (Course[]) courseList.toArray();
-        int count=0;
-        for (Course course : courseList) {
-            c[count++] = course;
-        }
-
-        //课程排序
-        for (int k = 0; k < count-1; k++) {
-            for (int j = k+1; j < count; j++) {
-                if (c[k].getStartSection()>c[j].getStartSection()){
-                    Course temp = c[k];
-                    c[k] = c[j];
-                    c[j] = temp;
-                }
-            }
-        }
-        courseList = Arrays.asList(c);
+        List<String> coureNameList = new ArrayList<>();
+        List<Drawable> drawableList = BackgroundStyle.initDrawableList(getActivity());
 
         int i = 0;
         for (Course course : courseList) {
@@ -205,8 +185,14 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
             params.setMargins(0,courseUnitHeight*(course.getStartSection()-lastClassPos[course.getDay()-1]-1),0,0);
             Button button = new Button(getActivity());
 
-            button.setTextColor(ContextCompat.getColor(getActivity(),R.color.text_color));
 
+            //设置按钮的显示模式
+            if (!coureNameList.contains(course.getCourseName())) {
+                coureNameList.add(course.getCourseName());
+            }
+            int index = coureNameList.indexOf(course.getCourseName());
+            button.setBackground(drawableList.get(index));
+            button.setTextColor(ContextCompat.getColor(getActivity(),R.color.md_white_100));
             button.setLayoutParams(params);
             //设置按钮的资源id
             button.setId(baseId+i);
@@ -272,23 +258,41 @@ public class CourseTableFragment extends Fragment implements View.OnClickListene
 
             }
         });
+        final Date startDate = courseInfo.getEduTerm().getStartDate();
+        final int currentWeek = TimeUtil.getCurrentWeek(startDate);
+        final int startSec = course.getStartSection();
+        final int endSec = startSec + course.getTotalSection()-1;
 
         builder.setPositiveButton("签到", new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("course",course);
-                bundle.putSerializable("student",student);
-                bundle.putParcelable("myLocation",myLocation);
-                Intent intent = new Intent(getActivity(),ShowActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                if (TimeUtil.getSignUpStatus(startDate,currentWeek,course.getDay(),startSec,endSec) != -1 || TimeUtil.getSignDownStatus(startDate,currentWeek,course.getDay(),startSec,endSec) != -1){
+                    SignUpStatusActivity.actionStart(getActivity(),courseInfo,myLocation);
+                    dialogInterface.dismiss();
+                }
+                else {
+                    dialogInterface.dismiss();
+                    showTip();
+                }
+
             }
         });
         builder.show();
     }
 
+    //提示现在不是上课时间
+    private void showTip(){
+        final android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+        builder.setTitle("提示");
+        builder.setMessage("现在不是签到时间");
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);

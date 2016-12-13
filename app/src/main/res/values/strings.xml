@@ -36,5 +36,13 @@
     <string name="course_sign_activity_btn_sign">签到</string>
     <string name="course_sign_activity_btn_cannel">取消</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="action_location">定位</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

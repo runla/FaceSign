@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:divider="@drawable/divider"
+    android:showDividers="middle"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+<!--    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:gravity="center"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/md_title_text"
+            android:lineSpacingExtra="8dp"
+            android:layout_weight="2"
+            android:text="JAVA 编程实践\n周三  7-9节"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_course_info" />
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/line_up_class"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/md_normal_text"
+            android:text="签到时间10:50（上课时间10:55）"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_up_time" />
+
+        <TextView
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/md_tip_text"
+            android:drawableLeft="@drawable/location"
+            android:drawablePadding="3dp"
+            android:text="北京师范大学珠海分校"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_up_location" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!-- 上课签到状态-->
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/md_white_100"
+                android:background="@drawable/sign_status_normal"
+                android:textSize="10sp"
+                android:text="正常"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_up_status" />
+
+            <!-- 人脸识别状态 -->
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/secondary_text"
+                android:textSize="10sp"
+                android:drawablePadding="3dp"
+                android:drawableRight="@drawable/status_error"
+                android:text="人脸"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_up_recognize" />
+
+            <!-- 上传的状态 -->
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/secondary_text"
+                android:textSize="10sp"
+                android:drawablePadding="3dp"
+                android:drawableRight="@drawable/status_normal_blue"
+                android:text="上传"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_up_upload" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/line_up_action"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:textSize="@dimen/md_subtitle_text"
+                android:layout_gravity="center"
+                android:text="上课签到\n10:50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_up"
+                android:background="@drawable/circle_button"
+                android:textColor="@color/md_white_100"
+                android:elevation="0dp" />
+
+            <TextView
+                android:id="@+id/tv_up_current_loaction"
+                android:textSize="@dimen/md_tip_text"
+                android:text="未获得当前位置"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:background="@null"
+                android:id="@+id/btn_up_refresh"
+                android:text="刷新"
+                android:textSize="@dimen/md_tip_text"
+                android:textColor="#536DFE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/line_down"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/md_normal_text"
+            android:text="签到时间10:50（下课时间10:55）"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_down_time" />
+
+        <TextView
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/md_tip_text"
+            android:drawableLeft="@drawable/location"
+            android:drawablePadding="3dp"
+            android:text="北京师范大学珠海分校"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_down_location" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!-- 下课签到状态 -->
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/md_white_100"
+                android:background="@drawable/sign_status_absent"
+                android:textSize="10sp"
+                android:text="早退"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_down_status" />
+
+            <!-- 人脸识别状态 -->
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/secondary_text"
+                android:textSize="10sp"
+                android:drawablePadding="3dp"
+                android:drawableRight="@drawable/status_error"
+                android:text="人脸"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_down_recognize" />
+
+            <!-- 上传的状态 -->
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/secondary_text"
+                android:textSize="10sp"
+                android:drawablePadding="3dp"
+                android:drawableRight="@drawable/status_normal_blue"
+                android:text="上传"
+                android:layout_marginRight="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_down_upload" />
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/line_down_action"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:textSize="@dimen/md_subtitle_text"
+                android:layout_gravity="center"
+                android:text="下课签到\n10:50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_down"
+                android:background="@drawable/circle_button"
+                android:textColor="@color/md_white_100"
+                android:elevation="0dp" />
+            <TextView
+                android:id="@+id/tv_down_current_loaction"
+                android:textSize="@dimen/md_tip_text"
+                android:text="未获得当前位置"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <Button
+                android:background="@null"
+                android:id="@+id/btn_down_refresh"
+                android:text="刷新"
+                android:textSize="@dimen/md_tip_text"
+                android:textColor="#536DFE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+    <!--
+        <android.support.v4.widget.Space
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />-->
+</LinearLayout>

@@ -13,7 +13,9 @@ public class CourseInfo extends Application implements Serializable {
 	private Student student;
 	//课程列表
 	private List<Course> courseList = new ArrayList<Course>();
-	
+
+	private EduTerm eduTerm;
+
 	public CourseInfo(){
 		
 	}
@@ -23,6 +25,11 @@ public class CourseInfo extends Application implements Serializable {
 		this.courseList = courseList;
 	}
 
+	public CourseInfo(Student student, List<Course> courseList, EduTerm eduTerm) {
+		this.student = student;
+		this.courseList = courseList;
+		this.eduTerm = eduTerm;
+	}
 
 	public Student getStudent() {
 		return student;
@@ -43,6 +50,11 @@ public class CourseInfo extends Application implements Serializable {
 		this.courseList = courseList;
 	}
 
+	public EduTerm getEduTerm() {
+		return eduTerm;
+	}
 
-
+	public void setEduTerm(EduTerm eduTerm) {
+		this.eduTerm = eduTerm;
+	}
 }

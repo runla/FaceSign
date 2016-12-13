@@ -3,21 +3,16 @@ package com.example.administrator.facesign.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.Poi;
 import com.example.administrator.facesign.MyLocationService;
 import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.entity.MyLocation;
 
 
-public class LocationActivity extends AppCompatActivity implements View.OnClickListener{
+public class LocationActivity extends BaseActivity implements View.OnClickListener{
 
     public static final int RESULT_CODE = 2;
     private MyLocation myLocation;
@@ -44,7 +39,6 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
     }
     private void initView(){
         showLocation = (TextView) findViewById(R.id.textView);
-
         img_back = (ImageView) findViewById(R.id.btn_back);
         tv_sure = (TextView) findViewById(R.id.tv_sure);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -57,17 +51,8 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
     private void initData(){
         if (myLocation != null) {
             StringBuilder sb = new StringBuilder();
-         /*   sb.append("时间：");
-            sb.append(myLocation.getTime()+"\n");
-            sb.append("纬度：");
-            sb.append(myLocation.getLatitude()+"\n");
-            sb.append("经度：");
-            sb.append(myLocation.getLongitude()+"\n");
-            sb.append("定位器描述：");
-            sb.append(myLocation.getDescribe()+"\n");*/
             sb.append(myLocation.getAddr()+"\n");
             sb.append(myLocation.getLocationdescribe()+"\n");
-
             showLocation.setText(sb.toString());
         }
         else{
@@ -105,8 +90,16 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
             //刷新
             case R.id.tv_sure:
                 showLocation.setText("重新定位中......");
-               // myLocation = null;
-                MyLocationService.getInstance(getApplicationContext()).start(mListener);
+
+                //获取当前位置信息
+                MyLocationService.getInstance(getApplicationContext()).getMyLocation(new MyLocationService.LocationCallbackListener() {
+                    @Override
+                    public void succssReceive(MyLocation location) {
+                        myLocation = location;
+                        initData();
+                    }
+                });
+
                 break;
         }
     }
@@ -117,7 +110,7 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
      * 定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
      *
      */
-    private BDLocationListener mListener = new BDLocationListener() {
+   /* private BDLocationListener mListener = new BDLocationListener() {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -125,10 +118,10 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
             if (null != location && location.getLocType() != BDLocation.TypeServerError) {
                 StringBuffer sb = new StringBuffer(256);
                 sb.append("time : ");
-                /**
+                *//**
                  * 时间也可以使用systemClock.elapsedRealtime()方法 获取的是自从开机以来，每次回调的时间；
                  * location.getTime() 是指服务端出本次结果的时间，如果位置不发生变化，则时间不变
-                 */
+                 *//*
                 sb.append(location.getTime());
                 sb.append("\nlocType : ");// 定位类型
                 sb.append(location.getLocType());
@@ -201,5 +194,5 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-    };
+    };*/
 }

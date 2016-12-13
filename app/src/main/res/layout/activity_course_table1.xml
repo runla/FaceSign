@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/md_green_300"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <!-- 现实位置 -->
-    <TextView
+<!--    <TextView
         android:id="@+id/show_location"
         android:gravity="center"
         android:text="定位中..."
         android:textSize="@dimen/md_tip_text"
         android:textColor="@color/colorPrimary"
-
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" />-->
     <!-- 顶端显示周数-->
     <!-- 顶端显示星期几-->
     <include layout="@layout/linear_day"></include>

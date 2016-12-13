@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/md_lime_300"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-  <!--  <include layout="@layout/top"></include>-->
+   <include layout="@layout/title_bar"></include>
     <include layout="@layout/header"></include>
     <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,6 +26,7 @@
 
 
     <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -39,6 +40,7 @@
 
 
     <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -56,6 +58,7 @@
 
 
     <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

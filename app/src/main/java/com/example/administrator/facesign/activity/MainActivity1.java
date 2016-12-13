@@ -94,7 +94,6 @@ public class MainActivity1 extends AppCompatActivity {
         toolbar.setTitle("课程表");
         setSupportActionBar(toolbar);
 
-
         toolbar.setBackgroundColor(ContextCompat.getColor(MainActivity1.this,R.color.md_green_500));
 
     }
@@ -305,7 +304,7 @@ public class MainActivity1 extends AppCompatActivity {
     };
 
 
-    public static interface DataCallBack{
+    public interface DataCallBack{
         void onDataChange(MyLocation myLocation);
     }
 }

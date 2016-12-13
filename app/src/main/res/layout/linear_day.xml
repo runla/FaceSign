@@ -21,8 +21,8 @@
             android:layout_width="@dimen/linear_day_textview_height"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="@dimen/linear_day_textsize"
-            android:text="9月"/>
+            android:textSize="7sp"
+            android:text="12月"/>
 
         <TextView
             style="@style/TayLayoutItemStyle"
