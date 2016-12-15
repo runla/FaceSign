@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_cardview"
+    android:layout_width="match_parent"
+    android:layout_height="96dp"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardCornerRadius="6dp">
+
+    <include layout="@layout/attention_info_item_content" />
+
+</android.support.v7.widget.CardView>

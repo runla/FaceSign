@@ -23,6 +23,12 @@ public class UrlUtil {
 
     public static String getUploadInfoUrl(){
         String urlPath = "http://"+v4IP+":8080/myServer/uploadImage";
+        //String urlPath = "http://"+"192.168.253.1"+":8080/myServer/uploadImage";
+        return urlPath;
+    }
+
+    public static String getAttentionInfoUrl(String username){
+        String urlPath = "http://"+v4IP+":8080/myServer/studentAttentionInfo?username="+username;
         return urlPath;
     }
 }

@@ -68,9 +68,13 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activity.PersonalInfoActivity" />
-        <activity android:name=".activity.SignUpStatusActivity"></activity>
-        <service android:name=".service.LongRunningService"></service>
-        <receiver android:name=".broadcast.AlarmReceiver"></receiver>
+        <activity android:name=".activity.SignUpStatusActivity" />
+
+        <service android:name=".service.LongRunningService" />
+
+        <receiver android:name=".broadcast.AlarmReceiver" />
+
+        <activity android:name=".activity.AttentionActivity"></activity>
     </application>
 
 </manifest>

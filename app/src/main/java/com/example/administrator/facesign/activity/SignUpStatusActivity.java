@@ -114,6 +114,7 @@ public class SignUpStatusActivity extends BaseActivity implements SignUpStatusFr
         mTabLayout.setupWithViewPager(mViewPager);
 
         if (titleStr.size() ==0){
+            mTabLayout.setVisibility(View.INVISIBLE);
             tv_title.setText("今天没有课");
         }
         else {

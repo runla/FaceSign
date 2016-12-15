@@ -28,12 +28,14 @@ public class ActivityCourseSign extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_sign);
-        ActivityCollector.addActivity(this);
+      //  ActivityCollector.addActivity(this);
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
         course = (Course) bundle.getSerializable("course");
         InitView();
         InitTextView();
+
+
     }
 
     private void InitView(){
@@ -75,6 +77,6 @@ public class ActivityCourseSign extends BaseActivity implements View.OnClickList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ActivityCollector.removeActivity(this);
+  //      ActivityCollector.removeActivity(this);
     }
 }

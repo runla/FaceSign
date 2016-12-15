@@ -6,6 +6,7 @@
     android:orientation="vertical"
     tools:context=".activity.ShowActivity">
 
+    <include layout="@layout/title_bar"></include>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom">
@@ -35,7 +36,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/imageButton2"
                 android:layout_toEndOf="@+id/imageButton2"
-                android:onClick="handleRecognizeResult"
                 android:nestedScrollingEnabled="true" />
 
             <ImageButton
@@ -52,9 +52,9 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:onClick="onClick_Cannel" />
-        </RelativeLayout>
+        </RelativeLayout>-->
 
-
+<!--
         <RelativeLayout
             android:id="@+id/layout_load"
             android:layout_width="102dp"
@@ -77,7 +77,7 @@
                 android:layout_below="@+id/loadView"
                 android:text="@string/loading_label_isLogining"/>
 
-        </RelativeLayout>
+        </RelativeLayout>-->
 
 
     </FrameLayout>

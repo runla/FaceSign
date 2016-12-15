@@ -55,8 +55,11 @@ public class LongRunningService extends Service {
         EduTerm eduTerm = MySharedPreference.loadEduDate(LongRunningService.this);
         List<Course> courseList = CourseDB.getInstance(LongRunningService.this).loadCourseList(student.getStudentid(),eduTerm.getStartDate().getTime());
         CourseInfo courseInfo = new CourseInfo(student,courseList,eduTerm);
-        if (courseList.size() != 0){
+        if (courseList.size() > 0){
             alarm(courseInfo);
+            /*for (Course course : courseInfo.getCourseList()) {
+                Log.d("1", "LongRunningService onStartCommand: "+course.getCourseName());
+            }*/
         }
         else {
             //从本地文件中获取账号密码
@@ -83,7 +86,9 @@ public class LongRunningService extends Service {
         Course course = TimeUtil.getNearestCourse(courseInfo);
         if (course==null){
             stopSelf();
+            Log.d(TAG, "alarm: ");
         }
+        Log.d("1", "alarm: "+course.getCourseName());
         //下节课上课的时间
         Long courseAlarmTime = TimeUtil.getNearestTime(courseInfo);
         //设置定时器
@@ -164,7 +169,7 @@ public class LongRunningService extends Service {
      */
     private void showNotification(Course course,String tickerDescribe){
         Log.d(TAG,"showNotification");
-        Bitmap LargeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        Bitmap LargeBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
         Intent it = new Intent(LongRunningService.this, MainActivity.class);
         PendingIntent pit = PendingIntent.getActivity(getApplicationContext(), 0, it, 0);
         //设置图片,通知标题,发送时间,提示方式等属性
@@ -174,7 +179,7 @@ public class LongRunningService extends Service {
                   .setSubText(tickerDescribe)                                //内容下面的一小段文字
                 .setTicker(tickerDescribe)                         //收到信息后状态栏显示的文字信息
                 .setWhen(System.currentTimeMillis())                                //设置通知时间
-                .setSmallIcon(R.mipmap.ic_launcher)                             //设置小图标
+                .setSmallIcon(R.mipmap.littel_logo)                             //设置小图标
                 .setLargeIcon(LargeBitmap)                                          //设置大图标
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE)    //设置默认的三色灯与振动器
                 .setAutoCancel(true)                                                //设置点击后取消Notification

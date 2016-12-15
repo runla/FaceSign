@@ -205,6 +205,7 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
         TextView tv_course;
         //tv_course = (TextView) view.findViewById(R.id.tv_course_info);
         btn_sure = (TextView) getActivity().findViewById(R.id.tv_sure);
+        btn_sure.setVisibility(View.INVISIBLE);
         //------------第一次 上课签到-------------//
         tv_up_time = (TextView) view.findViewById(R.id.tv_up_time);
         tv_up_location = (TextView) view.findViewById(R.id.tv_up_location);
@@ -264,6 +265,8 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
 
 
     private boolean flag = false;
+
+    private boolean isFlag = false;
     /**
      * 定时任务
      */
@@ -290,6 +293,22 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
                 hander.post(new Runnable() {
                     @Override
                     public void run() {
+                        /*if (!isFlag) {
+                            if (tv_up_current_loaction.getText().equals("未获得当前位置")&&tv_up_current_loaction.getVisibility() == View.VISIBLE) {
+                                signUpRefreshAction();
+                                isFlag = true;
+                            }
+                            if (tv_down_current_loaction.getText().equals("未获得当前位置")&&tv_down_current_loaction.getVisibility() == View.VISIBLE) {
+                                signDwonRefreshAction();
+                            }
+                            isFlag = true;
+                        }*/
+                        if (tv_up_current_loaction.getText().equals("未获得当前位置")&&tv_up_current_loaction.getVisibility() == View.VISIBLE) {
+                            tv_up_current_loaction.setText(firstLoctation.getAddr());
+                        }
+                        if (tv_down_current_loaction.getText().equals("未获得当前位置")&&tv_down_current_loaction.getVisibility() == View.VISIBLE) {
+                            tv_down_current_loaction.setText(secondLocation.getAddr());
+                        }
                         //当前时间
                         long currentTime = new Date().getTime();
 
@@ -352,7 +371,7 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
 
                             //刷新控件显示
                             initShowData();
-                            line_down_action.setVisibility(View.GONE);
+                            line_down_action.setVisibility(View.INVISIBLE);
 
                         }
 
@@ -421,17 +440,8 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
                 tv_up_current_loaction.setText("当前位置："+firstLoctation.getAddr());
             }
             else {
-                //获取当前位置并显示
-                MyLocationService.getInstance(getActivity()).getMyLocation(new MyLocationService.LocationCallbackListener() {
-                    @Override
-                    public void succssReceive(MyLocation myLocation) {
-                        firstLoctation = myLocation;
-                        tv_up_current_loaction.setText("当前位置："+firstLoctation.getAddr());
-                        // btn_up_refresh.setVisibility(View.VISIBLE);
-                    }
-                });
+                signUpRefreshAction();
             }
-
 
 
             //控件设置可见
@@ -458,17 +468,6 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
 
             //显示上课签到时的位置
             tv_up_location.setText(status.getAddr());
-
-           // btn_up_refresh.setVisibility(View.GONE);
-            //获取当前位置并显示
-            /*MyLocationService.getInstance(getActivity()).getMyLocation(new MyLocationService.LocationCallbackListener() {
-                @Override
-                public void succssReceive(MyLocation myLocation) {
-                    firstLoctation = myLocation;
-                    tv_up_current_loaction.setText("当前位置："+firstLoctation.getAddr());
-                  //  btn_up_refresh.setVisibility(View.VISIBLE);
-                }
-            });*/
 
             //*********************上课签到状态*************************************
             switch (status.getSignUpStatus()){
@@ -591,13 +590,14 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
             }
             else{
                 //获取当前位置并显示
-                MyLocationService.getInstance(getActivity()).getMyLocation(new MyLocationService.LocationCallbackListener() {
+                /*MyLocationService.getInstance(getActivity()).getMyLocation(new MyLocationService.LocationCallbackListener() {
                     @Override
                     public void succssReceive(MyLocation myLocation) {
                         secondLocation = myLocation;
                         tv_down_current_loaction.setText("当前位置："+ secondLocation.getAddr());
                     }
-                });
+                });*/
+                signDwonRefreshAction();
             }
 
 

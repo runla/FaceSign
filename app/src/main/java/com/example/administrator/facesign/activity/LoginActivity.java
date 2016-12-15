@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
         setContentView(R.layout.activity_login);
-        ActivityCollector.addActivity(this);
+     //   ActivityCollector.addActivity(this);
         //获取保存在本地的账号密码
 
         InitUI();
@@ -209,7 +209,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ActivityCollector.removeActivity(this);
+       // ActivityCollector.removeActivity(this);
     }
 
 }

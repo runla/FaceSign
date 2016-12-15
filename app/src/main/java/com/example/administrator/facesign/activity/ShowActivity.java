@@ -1,6 +1,7 @@
 package com.example.administrator.facesign.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,7 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -84,7 +85,7 @@ public class ShowActivity extends BaseActivity {
     /**
      * 加载布局
      */
-    private RelativeLayout relative_loading;
+  //  private RelativeLayout relative_loading;
 
     /**
      * 课程信息
@@ -121,10 +122,33 @@ public class ShowActivity extends BaseActivity {
      */
     //private Double similar;
 
+    /**
+     * 返回按钮
+     */
+    private ImageView btn_back;
+
+    /*
+    *上传按钮
+     */
+    private TextView btn_upload;
+
+    /**
+     * 标题
+     */
+    private TextView tv_title;
+
+    /**
+     * 人脸识别加载对话框
+     */
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
+
+        progressDialog = new ProgressDialog(ShowActivity.this);
+        progressDialog.setMessage("人脸识别中...");
+        progressDialog.setCancelable(false);
 
         //从启动该Activity的Activity中获取传递的数据
         getData();
@@ -132,6 +156,7 @@ public class ShowActivity extends BaseActivity {
         //状态恢复
         onRecoverInstanceState(savedInstanceState);
         initView();
+        initAction();
         startCamera();
 
     }
@@ -139,11 +164,36 @@ public class ShowActivity extends BaseActivity {
     private void initView(){
         img_show = (ImageView) findViewById(R.id.img_show);
         // loadingView = (ProgressBar) findViewById(R.id.loadView);
-        relative_loading = (RelativeLayout) findViewById(R.id.layout_load);
-        dismissLoadView();
+        //relative_loading = (RelativeLayout) findViewById(R.id.layout_load);
+
+        btn_back = (ImageView) findViewById(R.id.btn_back);
+        btn_upload = (TextView) findViewById(R.id.tv_sure);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_title.setText("考勤");
+        btn_upload.setText("上传");
+
+       // dismissLoadView();
     }
 
 
+    private void initAction(){
+        //返回
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setResult(RESULT_CODE,getResultDate());
+                finish();
+            }
+        });
+        //上传
+        btn_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //对人脸进行比对识别
+                handleRecognizeResult();
+            }
+        });
+    }
     /**
      * 从启动该activity的activity中获取数据
      */
@@ -163,13 +213,13 @@ public class ShowActivity extends BaseActivity {
     //显示加载控件
     private void showLoadView(){
         //设置可见
-        relative_loading.setVisibility(View.VISIBLE);
+       // relative_loading.setVisibility(View.VISIBLE);
     }
 
     //隐藏加载控件
     private void dismissLoadView(){
         //设置不可见
-        relative_loading.setVisibility(View.INVISIBLE);
+       // relative_loading.setVisibility(View.INVISIBLE);
 
     }
 
@@ -279,8 +329,9 @@ public class ShowActivity extends BaseActivity {
 
 
     private void handleRecognizeResult(){
-        showLoadView();
-
+        //showLoadView();
+        //显示人脸识别加载框
+        progressDialog.show();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(ShowActivity.this);
         String studentId = preferences.getString("studentId","");
         String secondPath = ImageUtil.getPersonalImagePath(studentId);
@@ -389,7 +440,9 @@ public class ShowActivity extends BaseActivity {
      * 人脸识别成功后的反应（返回显示课程信息的界面）
      */
     private void recognizeSuccess(){
-        dismissLoadView();
+       // dismissLoadView();
+
+        progressDialog.dismiss();
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("结果");
@@ -411,7 +464,8 @@ public class ShowActivity extends BaseActivity {
      * 人脸识别失败后的反应
      */
     private void recognizeFail(){
-        dismissLoadView();
+      //  dismissLoadView();
+        progressDialog.dismiss();
 
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("结果");
@@ -434,6 +488,7 @@ public class ShowActivity extends BaseActivity {
         });
         builder.show();
     }
+
 
     /**
      *     获取网络个人图片并保存至本地
