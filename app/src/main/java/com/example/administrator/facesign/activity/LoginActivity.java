@@ -21,7 +21,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.administrator.facesign.R;
+import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.CourseInfo;
+import com.example.administrator.facesign.util.MySharedPreference;
 import com.example.administrator.facesign.util.UrlUtil;
 import com.example.administrator.facesign.util.Utility;
 import com.example.administrator.facesign.vollery.AppController;
@@ -105,8 +107,20 @@ public class LoginActivity extends BaseActivity {
 
             //原型进度条
             bar_loading.setVisibility(View.VISIBLE);
-            //检查登录账号
-            checkLogin();
+            if (isNetworkAvailable(LoginActivity.this)) {
+                // Toast.makeText(LoginActivity.this, "网络"+NetWorkUtils.getAPNType(LoginActivity.this), Toast.LENGTH_SHORT).show();
+                //检查登录账号
+                checkLogin();
+            }
+            else {
+                Toast.makeText(LoginActivity.this, "没有网络", Toast.LENGTH_SHORT).show();
+                loginBtn.setEnabled(true);
+                userNameEdit.setEnabled(true);
+                passwordEdit.setEnabled(true);
+                bar_loading.setVisibility(View.INVISIBLE);
+            }
+
+
         }
         else
         {
@@ -139,6 +153,13 @@ public class LoginActivity extends BaseActivity {
             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
             intent.putExtra("courseInfo",courseInfo);
             startActivity(intent);
+            //保存学生信息
+            MySharedPreference.saveStudent(LoginActivity.this,courseInfo.getStudent());
+            //保存上课时间
+            MySharedPreference.saveEduDate(LoginActivity.this,courseInfo.getEduTerm());
+            //将课程信息保存到数据库中
+            CourseDB.getInstance(LoginActivity.this).saveCourseList(courseInfo.getCourseList(),username,courseInfo.getEduTerm().getStartDate().getTime());
+
             Toast.makeText(LoginActivity.this, "欢迎你 "+courseInfo.getStudent().getName()+"!", Toast.LENGTH_SHORT).show();
         }
         else {

@@ -30,7 +30,6 @@ import com.example.administrator.facesign.entity.Student;
 import com.example.administrator.facesign.fragment.CourseTableFragment;
 import com.example.administrator.facesign.service.LongRunningService;
 import com.example.administrator.facesign.util.ImageUtil;
-import com.example.administrator.facesign.util.MySharedPreference;
 import com.example.administrator.facesign.util.UrlUtil;
 import com.example.administrator.facesign.vollery.AppController;
 
@@ -107,7 +106,7 @@ public class MainActivity extends BaseActivity
      * 初始化控件
      */
     private void initView(){
-        student = MySharedPreference.loadStudent(MainActivity.this);
+        student = courseInfo.getStudent();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
@@ -115,7 +114,7 @@ public class MainActivity extends BaseActivity
         nav_name = (TextView) headerView.findViewById(R.id.nav_tv_name);
         nav_department = (TextView) headerView.findViewById(R.id.nav_tv_department);
 
-        nav_name.setText("陈坚润");
+        nav_name.setText(student.getName());
         nav_department.setText(student.getMajor());
         //查看本地是否存在个人图片,有则从本地获取并显示，没有则从服务器中获取
         if (ImageUtil.isBitmapExist(ImageUtil.getPersonalImagePath(student.getStudentid()))){
@@ -199,7 +198,7 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_home) {
 
         } else if (id == R.id.nav_person) {//个人信息
-            PersonalInfoActivity.actionStart(MainActivity.this);
+            PersonalInfoActivity.actionStart(MainActivity.this,student);
         } else if (id == R.id.nav_sign) {//签到
             SignUpStatusActivity.actionStart(MainActivity.this,courseInfo,myLocation);
         } else if (id == R.id.nav_statistics) {

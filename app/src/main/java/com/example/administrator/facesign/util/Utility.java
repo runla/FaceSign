@@ -1,5 +1,6 @@
 package com.example.administrator.facesign.util;
 
+import com.example.administrator.facesign.entity.AttentionInfo;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
 import com.example.administrator.facesign.entity.EduTerm;
@@ -20,6 +21,26 @@ import java.util.List;
  * Created by Administrator on 2016/11/8.
  */
 public class Utility {
+    public static List<AttentionInfo> handleAttentionInfoList(String response){
+        List<AttentionInfo> list = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(response);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                String teacherName = jsonObject.getString("teacherName");
+                String courseName = jsonObject.getString("courseName");
+                int weekend = jsonObject.getInt("weekend");
+                int day = jsonObject.getInt("day");
+                int statu = jsonObject.getInt("status");
+                int startSection = jsonObject.getInt("startSection");
+                int endSection = jsonObject.getInt("endSection");
+                list.add(new AttentionInfo(teacherName,courseName,weekend,day,statu,startSection,endSection));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     public static CourseInfo handleCourseInfo(String response){
         CourseInfo info = new CourseInfo();
         List<Course> courseList = new ArrayList<Course>();
@@ -47,8 +68,9 @@ public class Utility {
                 int startSection = jsonObject1.getInt("startSection");
                 int totalSection = jsonObject1.getInt("totalSection");
                 int singleOrDouble = jsonObject1.getInt("singleOrDouble");
+                String courseClassId = jsonObject1.getString("courseClassId");
 
-                Course course = new Course(courseName,courseId,teacherName,teacherId,room,day,startWeek,totalWeeks,startSection,totalSection,singleOrDouble);
+                Course course = new Course(courseName,courseId,teacherName,teacherId,room,day,startWeek,totalWeeks,startSection,totalSection,singleOrDouble,courseClassId);
                 courseList.add(course);
             }
 

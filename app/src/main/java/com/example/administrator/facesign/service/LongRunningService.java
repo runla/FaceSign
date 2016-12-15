@@ -5,7 +5,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,14 +21,19 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.activity.MainActivity;
 import com.example.administrator.facesign.broadcast.AlarmReceiver;
+import com.example.administrator.facesign.db.CourseDB;
 import com.example.administrator.facesign.entity.Course;
 import com.example.administrator.facesign.entity.CourseInfo;
+import com.example.administrator.facesign.entity.EduTerm;
+import com.example.administrator.facesign.entity.Student;
+import com.example.administrator.facesign.util.MySharedPreference;
 import com.example.administrator.facesign.util.TimeUtil;
 import com.example.administrator.facesign.util.UrlUtil;
 import com.example.administrator.facesign.util.Utility;
 import com.example.administrator.facesign.vollery.AppController;
 
 import java.util.Date;
+import java.util.List;
 
 import static android.app.AlarmManager.RTC_WAKEUP;
 
@@ -47,11 +51,20 @@ public class LongRunningService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //从本地文件中获取账号密码
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LongRunningService.this);
-        String username = preferences.getString("studentId","");
-        String password = preferences.getString("password","");
-        checkLogin(username,password);
+        Student student = MySharedPreference.loadStudent(LongRunningService.this);
+        EduTerm eduTerm = MySharedPreference.loadEduDate(LongRunningService.this);
+        List<Course> courseList = CourseDB.getInstance(LongRunningService.this).loadCourseList(student.getStudentid(),eduTerm.getStartDate().getTime());
+        CourseInfo courseInfo = new CourseInfo(student,courseList,eduTerm);
+        if (courseList.size() != 0){
+            alarm(courseInfo);
+        }
+        else {
+            //从本地文件中获取账号密码
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LongRunningService.this);
+            String username = preferences.getString("studentId","");
+            String password = preferences.getString("password","");
+            checkLogin(username,password);
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -62,8 +75,19 @@ public class LongRunningService extends Service {
         super.onCreate();
     }
 
-    public static void actionStart(Context mContext, String username, String password){
 
+
+
+    private void alarm(CourseInfo courseInfo){
+        //下节课上课的课程信息
+        Course course = TimeUtil.getNearestCourse(courseInfo);
+        if (course==null){
+            stopSelf();
+        }
+        //下节课上课的时间
+        Long courseAlarmTime = TimeUtil.getNearestTime(courseInfo);
+        //设置定时器
+        setAlarmTime(courseAlarmTime,course);
     }
 
     private void checkLogin(String username, String password){
@@ -76,7 +100,9 @@ public class LongRunningService extends Service {
                             Log.d(TAG,response);
                             //处理个人数据
                             CourseInfo courseInfo = Utility.handleCourseInfo(response);
-                            //下节课上课的课程信息
+                            //定时器的设置
+                            alarm(courseInfo);
+                            /*//下节课上课的课程信息
                             Course course = TimeUtil.getNearestCourse(courseInfo);
                             if (course==null){
                                 stopSelf();
@@ -84,7 +110,7 @@ public class LongRunningService extends Service {
                             //下节课上课的时间
                             Long courseAlarmTime = TimeUtil.getNearestTime(courseInfo);
                             //设置定时器
-                            setAlarmTime(courseAlarmTime,course);
+                            setAlarmTime(courseAlarmTime,course);*/
                         }
                         else{
                             //Toast.makeText(LoginActivity.this, "密码错误", Toast.LENGTH_SHORT).show();

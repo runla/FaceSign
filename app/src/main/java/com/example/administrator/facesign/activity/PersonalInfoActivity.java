@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +16,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.example.administrator.facesign.R;
 import com.example.administrator.facesign.entity.Student;
 import com.example.administrator.facesign.util.ImageUtil;
-import com.example.administrator.facesign.util.MySharedPreference;
 import com.example.administrator.facesign.util.UrlUtil;
 import com.example.administrator.facesign.vollery.AppController;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -43,15 +43,27 @@ public class PersonalInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_personal_info);
-
+        student = (Student) getIntent().getExtras().getSerializable("student");
+        if (savedInstanceState != null){
+            student = (Student) savedInstanceState.getSerializable("student");
+        }
         InitView();
         initAction();
         InitTextView();
     }
 
 
-    public static void actionStart(Context mContext){
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putSerializable("student",student);
+    }
+
+    public static void actionStart(Context mContext, Student student){
         Intent intent = new Intent(mContext,PersonalInfoActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("student",student);
+        intent.putExtras(bundle);
         mContext.startActivity(intent);
     }
     private void InitView(){
@@ -90,7 +102,7 @@ public class PersonalInfoActivity extends BaseActivity {
     }
 
     private void InitTextView(){
-        student = MySharedPreference.loadStudent(this);
+     //   student = MySharedPreference.loadStudent(this);
         tv_name.setText(student.getName());
         tv_studentid.setText(student.getStudentid());
         tv_schools.setText(student.getSchools());

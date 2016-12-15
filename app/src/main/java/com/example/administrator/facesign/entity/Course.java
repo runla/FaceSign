@@ -27,10 +27,12 @@ public class Course implements Serializable{
 
 	//单双周,单周为1，双周为2，部分为0
 	private int singleOrDouble;
-	
-	public Course(String courseName, String courseId, String teacherName, String teacherId, String room, int day,
-			int startWeek, int totalWeeks, int startSection, int totalSection, int singleOrDouble) {
-		super();
+
+	private String courseClassId;
+
+	public Course(String courseName, String courseId, String teacherName, String teacherId, String room,
+				  int day, int startWeek, int totalWeeks, int startSection,
+				  int totalSection, int singleOrDouble, String courseClassId) {
 		this.courseName = courseName;
 		this.courseId = courseId;
 		this.teacherName = teacherName;
@@ -42,9 +44,17 @@ public class Course implements Serializable{
 		this.startSection = startSection;
 		this.totalSection = totalSection;
 		this.singleOrDouble = singleOrDouble;
+		this.courseClassId = courseClassId;
 	}
-	
-	
+
+	public String getCourseClassId() {
+		return courseClassId;
+	}
+
+	public void setCourseClassId(String courseClassId) {
+		this.courseClassId = courseClassId;
+	}
+
 	public int getSingleOrDouble() {
 		return singleOrDouble;
 	}

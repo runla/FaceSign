@@ -91,6 +91,7 @@ public class XmlUtil {
 
              String courseName = element.getElementsByTagName("courseName").item(0).getFirstChild().getNodeValue();
              String courseId = element.getElementsByTagName("courseId").item(0).getFirstChild().getNodeValue();
+            String courseClassId = element.getElementsByTagName("courseClassId").item(0).getFirstChild().getNodeValue();
              String teacherName = element.getElementsByTagName("teacherName").item(0).getFirstChild().getNodeValue();
              String teacherId = element.getElementsByTagName("teacherId").item(0).getFirstChild().getNodeValue();
              String room = element.getElementsByTagName("room").item(0).getFirstChild().getNodeValue();
@@ -102,7 +103,7 @@ public class XmlUtil {
              int totalSection = Integer.parseInt(element.getElementsByTagName("totalSection").item(0).getFirstChild().getNodeValue());
              int singleOrDouble = Integer.parseInt(element.getElementsByTagName("singleOrDouble").item(0).getFirstChild().getNodeValue());
 
-            course = new Course(courseName,courseId,teacherName,teacherId,room,day,startWeek,totalWeeks,startSection,totalSection,singleOrDouble);
+            course = new Course(courseName,courseId,teacherName,teacherId,room,day,startWeek,totalWeeks,startSection,totalSection,singleOrDouble,courseClassId);
             courseList.add(course);
         }
 

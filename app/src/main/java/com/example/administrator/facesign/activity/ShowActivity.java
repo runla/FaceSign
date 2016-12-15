@@ -339,6 +339,8 @@ public class ShowActivity extends BaseActivity {
         params.addBodyParameter("uploadTime",uploadTime+"");//上传时间
         params.addBodyParameter("signStatus",signStatus+"");//签到状态
         params.addBodyParameter("signTimes",signTimes+"");//第几次签到
+        params.addBodyParameter("courseClassId",course.getCourseClassId());
+        params.addBodyParameter("currentWeek",currentWeek+"");//当前周
         try {
             //地址
             params.addBodyParameter("addr",URLEncoder.encode(myLocation.getAddr(), "utf-8"));

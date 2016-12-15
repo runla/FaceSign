@@ -299,7 +299,7 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
 
                         //显示上课签到按钮（上课前10分钟  ---  下课前10分钟）
                         if (classUpTime - 10 * TimeUtil.M <= currentTime && currentTime < classDownTime - 10* TimeUtil.M){
-                            Log.d("1", "run: 11111111111");
+                       //     Log.d("1", "run: 11111111111");
                             if (line_up_action.getVisibility() != View.VISIBLE) {
                                 //刷新控件显示
                                 initShowData();
@@ -308,7 +308,7 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
                         }
                         //显示下课签到按钮（下课前10分钟  ---  下课后10分钟）
                         else if (classDownTime - 10* TimeUtil.M <= currentTime && currentTime <= classDownTime + 10* TimeUtil.M){
-                            Log.d("1", "run: 2222222222");
+                     //       Log.d("1", "run: 2222222222");
                             //上课没有签到，记录未旷课
                             if (currentSignTimes == 0 && !flag){
                                 //当前签到的次数
@@ -328,7 +328,7 @@ public class SignUpStatusFragment extends Fragment implements View.OnClickListen
                         }
                         //超过上课的时间了
                         else if (currentTime > classDownTime + 10* TimeUtil.M){
-                            Log.d("1", "run: 33333333333");
+                      //      Log.d("1", "run: 33333333333");
                             //上课没有签到，记录未旷课
                             if (currentSignTimes == 0){
                                 //当前签到的次数

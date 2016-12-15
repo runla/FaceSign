@@ -12,6 +12,7 @@ public class CourseOpenHelper extends SQLiteOpenHelper {
     public static final String CREATE_TABLE_COURSE ="create table Course(" +
             "id integer primary key autoincrement," +
             "studentId text," +
+            "courseClassId text," +
             "courseName text," +
             "courseId text," +
             "teacherName text," +
@@ -22,7 +23,8 @@ public class CourseOpenHelper extends SQLiteOpenHelper {
             "totalWeeks integer," +
             "singleOrDouble integer," +
             "startSection integer," +
-            "totalSection integer)";
+            "totalSection integer," +
+            "startTime text)";
 
 
 
@@ -38,7 +40,7 @@ public class CourseOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         switch (oldVersion){
-            case 1:
+            case 2:
                 //sqLiteDatabase.execSQL(CREATE_TABLE_COURSE);
             default:
                 break;
